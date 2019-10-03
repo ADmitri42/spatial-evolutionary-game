@@ -7,3 +7,10 @@ Every individual can play one of two tactics: cooperate or defect. At the begini
 In each round individuals "*play the game*" with 8 its neighbours and the *average cooperator*.
 
 After all games played the site occupied either by its original owner or by one of the neighbours who scores the highest total payoff in that round.
+
+
+## To-Do
+
+- [] Check if density of cooperators depends on initial density
+- [] Look at cooperator surrounded by defectors
+- [] Rewrite game in C++
