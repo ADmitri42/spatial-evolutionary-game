@@ -11,6 +11,6 @@ After all games played the site occupied either by its original owner or by one 
 
 ## To-Do
 
-- [] Check if density of cooperators depends on initial density
+- [x] Check if density of cooperators depends on initial density
 - [] Look at cooperator surrounded by defectors
 - [] Rewrite game in C++
