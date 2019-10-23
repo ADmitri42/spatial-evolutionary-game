@@ -88,7 +88,7 @@ def evolve_old(long[:, :] field, double b, long num_epoch=1):
 
     return np.asarray(field)
 
-cdef long[:, :] collors = np.array(((255, 255, 0), (0, 0, 0), (255, 0, 0), (0, 0, 255), (0, 255, 0)), dtype=int)
+cdef long[:, :] collors = np.array(((255, 255, 0), (0, 0, 0), (255, 0, 0), (0, 0, 255), (0, 0, 0), (0, 255, 0)), dtype=int)
 @cython.cdivision(True)
 @cython.boundscheck(False)
 def make_rgb(long[:, :] field):

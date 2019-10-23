@@ -3,6 +3,13 @@
 #include <iostream>
 #include <numeric>
 
+
+/*
+ * initialize game field with vector for densities
+ *
+ * size - length of field
+ * _b - initial payoff parameter
+ */
 Game::Game(int size, double _b){
     L = size;
     field.assign(L*L, 0);
@@ -10,15 +17,14 @@ Game::Game(int size, double _b){
     b = _b;
 }
 
+/*
+ * return vector of densities for all steps after reseting field
+ */
 std::vector<double> Game::get_densities(){
     return densities;
 }
 
-int Game::get_densities_size(){
-    return densities.size();
-}
-
-int Game::get_size(){
+int Game::size(){
     return L;
 }
 
@@ -26,6 +32,10 @@ double Game::get_b(){
     return b;
 }
 
+/*
+ * Set new payoff parameter
+ * (doesn't reset the statistic)
+ */
 void Game::set_b(double new_b){
     b = new_b;
 }
@@ -34,7 +44,11 @@ std::vector<int> Game::get_field(){
     return field;
 }
 
-void Game::set_field(std::vector<int> new_field){
+/*
+ * Set new field
+ * (statistic would be reset)
+ */
+void Game::set_field(const std::vector<int> &new_field){
     if(new_field.size() != L*L){
         throw std::length_error("Wrong size");
     }
@@ -43,9 +57,12 @@ void Game::set_field(std::vector<int> new_field){
     densities.push_back(static_cast<double>(accumulate(field.begin(),field.end(),0))/field.size());
 }
 
+/*
+ * Evolve num_steps
+ */
 void Game::evolve(int num_steps)
 {
-    int size = static_cast<int>(sqrt(field.size()));
+    int size = L;
 
     std::vector<double> scores(size*size, 0);
     std::vector<int> currentField(size*size, 0);
@@ -61,6 +78,7 @@ void Game::evolve(int num_steps)
         scores.assign(size*size, 0);
         density = densities.back();
 
+        //Payoffs
         for (int k = 0; k < size*size; k++) {
             int y = k / size; // Row
             int x = k % size; // Col
@@ -113,8 +131,15 @@ void Game::evolve(int num_steps)
     currentField.clear();
 }
 
+/*
+ * Methods for easier creating of numpy array in cython
+ */
 int* Game::get_field_pointer(){
     return &field[0];
+}
+
+int Game::get_densities_size(){
+    return densities.size();
 }
 
 double* Game::get_densities_pointer(){
