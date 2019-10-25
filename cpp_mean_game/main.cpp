@@ -45,7 +45,7 @@ int main() {
                          1.73898305, 1.75762712, 1.77627119, 1.79491525, 1.81355932,
                          1.83220339, 1.85084746, 1.86949153, 1.88813559, 1.90677966,
                          1.92542373, 1.9440678 , 1.96271186, 1.98135593, 1.995};
-    Game game(L);
+    MeanGame game(L);
     vector<double> densities, new_den;
     chrono::duration<double> elapsed;
     cout << "Modeling..." << endl;
@@ -68,13 +68,13 @@ int main() {
              << " Time remaining: " << elapsed.count()*(bs.size()-i-1) << " s" << endl;
         cout << "Saving data: ";
 
-        cnpy::npy_save("data/density_of_cooperators.npy",
+        cnpy::npy_save("data/density_of_cooperators5.npy",
                        &densities[0],
                        {i+1, fields_number, total_steps-drop_steps},
                        "w");
         cout << "done" << endl;
     }
-    cnpy::npy_save("data/density_of_cooperators.npy",
+    cnpy::npy_save("data/density_of_cooperators5.npy",
                    &densities[0],
                    {bs.size(), fields_number, total_steps-drop_steps},
                    "w");

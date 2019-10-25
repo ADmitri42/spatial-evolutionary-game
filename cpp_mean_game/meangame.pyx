@@ -1,34 +1,18 @@
 # distutils: language = c++
-# distutils: sources = evolve.cc
 import numpy as np
 
 from libcpp.vector cimport vector
 from numpy cimport import_array, PyArray_SimpleNewFromData, NPY_INT, npy_intp, NPY_DOUBLE
 
+from MeanGame cimport MeanGame
 
-cdef extern from "evolve.h":
-    cdef cppclass Game:
-        Game(int, double)
-        void evolve(int);
-        vector[double] get_densities();
-        int get_densities_size();
-        int get_size();
-        double get_b();
-        void set_b(double);
-        vector[int] get_field();
-        void set_field(vector[int]);
-
-        int* get_field_pointer();
-        double* get_densities_pointer();
-
-
-cdef class GameField:
+cdef class MeanGamePy:
     cdef:
-        Game *c_game;
+        MeanGame *c_game;
         cdef int _L
 
     def __cinit__(self, int L, double b):
-        self.c_game = new Game(L, b)
+        self.c_game = new MeanGame(L, b)
         self._L = L
 
     def __dealloc__(self):
@@ -63,6 +47,7 @@ cdef class GameField:
             vec[j] = arr[j]
 
         self.c_game.set_field(vec)
+        vec.clear()
 
     @property
     def b(self):

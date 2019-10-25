@@ -10,7 +10,7 @@
  * size - length of field
  * _b - initial payoff parameter
  */
-Game::Game(int size, double _b){
+MeanGame::MeanGame(int size, double _b){
     L = size;
     field.assign(L*L, 0);
     densities.push_back(0);
@@ -20,15 +20,15 @@ Game::Game(int size, double _b){
 /*
  * return vector of densities for all steps after reseting field
  */
-std::vector<double> Game::get_densities(){
+std::vector<double> MeanGame::get_densities(){
     return densities;
 }
 
-int Game::size(){
+int MeanGame::size(){
     return L;
 }
 
-double Game::get_b(){
+double MeanGame::get_b(){
     return b;
 }
 
@@ -36,11 +36,11 @@ double Game::get_b(){
  * Set new payoff parameter
  * (doesn't reset the statistic)
  */
-void Game::set_b(double new_b){
+void MeanGame::set_b(double new_b){
     b = new_b;
 }
 
-std::vector<int> Game::get_field(){
+std::vector<int> MeanGame::get_field(){
     return field;
 }
 
@@ -48,7 +48,7 @@ std::vector<int> Game::get_field(){
  * Set new field
  * (statistic would be reset)
  */
-void Game::set_field(const std::vector<int> &new_field){
+void MeanGame::set_field(const std::vector<int> &new_field){
     if(new_field.size() != L*L){
         throw std::length_error("Wrong size");
     }
@@ -60,12 +60,10 @@ void Game::set_field(const std::vector<int> &new_field){
 /*
  * Evolve num_steps
  */
-void Game::evolve(int num_steps)
+void MeanGame::evolve(int num_steps)
 {
-    int size = L;
-
-    std::vector<double> scores(size*size, 0);
-    std::vector<int> currentField(size*size, 0);
+    std::vector<double> scores(L*L, 0);
+    std::vector<int> currentField(L*L, 0);
 
     double density;
 
@@ -75,19 +73,19 @@ void Game::evolve(int num_steps)
         std::copy(field.begin(), field.end(), currentField.begin());
 
         //Scores
-        scores.assign(size*size, 0);
+        scores.assign(L*L, 0);
         density = densities.back();
 
         //Payoffs
-        for (int k = 0; k < size*size; k++) {
-            int y = k / size; // Row
-            int x = k % size; // Col
+        for (int k = 0; k < L*L; k++) {
+            int y = k / L; // Row
+            int x = k % L; // Col
 
             for (int i = -1; i <= 1; i++) //Row
             {
                 for (int j = -1; j <= 1; j++) //Col
                 {
-                    int memberIndex = (x + i + size) % size + size * ((y + j + size) % size);
+                    int memberIndex = (x + i + L) % L + L * ((y + j + L) % L);
                     if((i == 0)&&(j == 0)){
                         scores[k] += density;
                     } else {
@@ -103,9 +101,9 @@ void Game::evolve(int num_steps)
         }
 
         //Strategy
-        for (int k = 0; k < size*size; k++) {
-            int y = k / size; // Row
-            int x = k % size; // Col
+        for (int k = 0; k < L*L; k++) {
+            int y = k / L; // Row
+            int x = k % L; // Col
 
             int bestStrategyIndex = k;
 
@@ -113,7 +111,7 @@ void Game::evolve(int num_steps)
             {
                 for (int j = -1; j <= 1; j++) //Col
                 {
-                    int memberIndex = (x + i + size) % size + size * ((y + j + size) % size);
+                    int memberIndex = (x + i + L) % L + L * ((y + j + L) % L);
 
                     if (scores[bestStrategyIndex] < scores[memberIndex])
                     {
@@ -132,16 +130,16 @@ void Game::evolve(int num_steps)
 }
 
 /*
- * Methods for easier creating of numpy array in cython
+ * Methods that simplify NumPy Array creation
  */
-int* Game::get_field_pointer(){
+int* MeanGame::get_field_pointer(){
     return &field[0];
 }
 
-int Game::get_densities_size(){
+int MeanGame::get_densities_size(){
     return densities.size();
 }
 
-double* Game::get_densities_pointer(){
+double* MeanGame::get_densities_pointer(){
     return &densities[0];
 }

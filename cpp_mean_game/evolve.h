@@ -3,7 +3,7 @@
 
 #include<vector>
 
-class Game{
+class MeanGame{
 private:
     std::vector<int> field;
     std::vector<double> densities;
@@ -11,7 +11,7 @@ private:
     double b;
 
 public:
-    Game(int size, double _b=1.8);
+    MeanGame(int size, double _b=1.8);
 
     void evolve(int num_steps = 0);
 
