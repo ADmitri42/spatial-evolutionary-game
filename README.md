@@ -9,10 +9,10 @@ In each round individuals "*play the game*" with 8 its neighbours and the *avera
 After all games played the site occupied either by its original owner or by one of the neighbours who scores the highest total payoff in that round.
 
 ## Where is what?
-Let's take a quick look at fiels:
+Let's take a quick look at filуs:
 
-* [spatial evolutionary game.ipynb](spatial evolutionary game.ipynb) - The main notebook where one can find all main information
-* [dynamic of the system.ipynb](dynamic of the system.ipynb) - used for experiments and testing. Has animation.
+* [spatial evolutionary game.ipynb](spatial%20evolutionary%20game.ipynb) - The main notebook where one can find all main information
+* [dynamic of the system.ipynb](dynamic%20of%20the%20system.ipynb) - used for experiments and testing. Has animation.
 * [figures\\](figures) - Graphs and other images
 - [data\\](data) - Folder with all generated data
 - [data\\density_of_cooperators.npy](data\density_of_cooperators.npy) - densities of cooperators with initial densities of 0.9
