@@ -21,7 +21,7 @@ cdef class MeanGamePy:
     @property
     def L(self):
         """"Return linear size of the field"""
-        return self.c_game.get_size()
+        return self.c_game.size()
 
     @property
     def field(self):

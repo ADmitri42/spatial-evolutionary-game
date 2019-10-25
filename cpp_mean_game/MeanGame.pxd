@@ -7,7 +7,7 @@ cdef extern from "evolve.h":
         void evolve(int);
         vector[double] get_densities();
         int get_densities_size();
-        int get_size();
+        int size();
         double get_b();
         void set_b(double);
         vector[int] get_field();
