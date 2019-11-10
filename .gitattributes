@@ -3,3 +3,5 @@
 *.npy
  filter=lfs diff=lfs merge=lfs -text
 data/*.npy filter=lfs diff=lfs merge=lfs -text
+onedef[[:space:]]—[[:space:]]копия.mp4 filter=lfs diff=lfs merge=lfs -text
+onedef.mp4 filter=lfs diff=lfs merge=lfs -text

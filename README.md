@@ -12,7 +12,8 @@ After all games played the site occupied either by its original owner or by one 
 Let's take a quick look at filуs:
 
 * [spatial evolutionary game.ipynb](spatial%20evolutionary%20game.ipynb) - The main notebook where one can find all main information
-* [dynamic of the system.ipynb](dynamic%20of%20the%20system.ipynb) - used for experiments and testing. Has animation.
+* [draft.ipynb](draft.ipynb) - used for experiments and testing
+* [Animation.ipynb](Animation.ipynb) - animations
 * [figures\\](figures) - Graphs and other images
 - [data\\](data) - Folder with all generated data
 - [data\\density_of_cooperators.npy](data\density_of_cooperators.npy) - densities of cooperators with initial densities of 0.9
