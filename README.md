@@ -47,6 +47,6 @@ To compile C++ version you need to install [cnpy](https://github.com/rogersce/cn
 
 After installation you can compile it
 ```bash
-g++ -o build/computedens.out main.cpp -L/usr/local/lib evolve.cc -lcnpy -lz -O3 --std=c++11
+g++ -o build/realization.out main.cpp -L/usr/local/lib evolve.cc argparser.cpp -lcnpy -lz -O3 --std=c++11
 export LD_LIBRARY_PATH=/usr/local/lib/
 ```

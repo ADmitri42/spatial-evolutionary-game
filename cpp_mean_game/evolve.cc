@@ -18,7 +18,7 @@ MeanGame::MeanGame(int size, double _b){
 }
 
 /*
- * return vector of densities for all steps after reseting field
+ * return vector of densities for all steps after resetting field
  */
 std::vector<double> MeanGame::get_densities(){
     return densities;

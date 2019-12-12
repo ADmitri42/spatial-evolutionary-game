@@ -10,7 +10,7 @@
 /*
  * Compilation require cnpy lib
  * export LD_LIBRARY_PATH=/usr/local/lib/
- * g++ -o build/realization.out main.cpp -L/usr/local/lib evolve.cc -lcnpy -lz -O3 --std=c++11
+ * g++ -o build/realization.out main.cpp -L/usr/local/lib evolve.cc argparser.cpp -lcnpy -lz -O3 --std=c++11
  */
 using namespace std;
 
@@ -34,8 +34,7 @@ int main(int argc, char* argv[]) {
         return 0;
     }
     cout << "Initializing variables..." << endl;
-    vector<double> bs = {1.38474576, 1.5       , 1.54827586, 1.59655172,
-                         1.62413793, 1.63103448, 1.7       , 1.92542373};
+    vector<double> bs = {1.54137931, 1.63793103};
     MeanGame game(config->L);
 
     vector<double> densities, new_den;

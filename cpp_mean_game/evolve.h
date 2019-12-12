@@ -22,6 +22,9 @@ public:
     std::vector<int> get_field();
     void set_field(const std::vector<int> &new_field);
 
+    /*
+     * Function to create numpy array
+     */
     int* get_field_pointer();
     int get_densities_size();
     double* get_densities_pointer();
