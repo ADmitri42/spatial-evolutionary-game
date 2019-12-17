@@ -29,7 +29,7 @@ cdef class MeanGamePy:
         cdef npy_intp dims[2]
         dims[0] = self._L
         dims[1] = self._L
-        return PyArray_SimpleNewFromData(2, dims, NPY_INT, self.c_game.get_field_pointer())
+        return PyArray_SimpleNewFromData(2, dims, NPY_UINT8, self.c_game.get_field_pointer())
 
     @field.setter
     def field(self, arr):

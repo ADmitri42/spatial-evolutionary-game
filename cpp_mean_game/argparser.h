@@ -13,6 +13,8 @@ typedef struct {
     int drop_steps;
     int L;
     int fields_number;
+    int persistence_from;
+    int persistence_till;
     std::string output_file;
     std::string fields_directory;
     bool successful;

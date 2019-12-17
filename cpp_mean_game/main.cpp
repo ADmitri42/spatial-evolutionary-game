@@ -37,8 +37,9 @@ int main(int argc, char* argv[]) {
     vector<double> bs = {1.54137931, 1.63793103};
     MeanGame game(config->L);
 
-    vector<double> densities, new_den;
+    vector<double> densities, new_den, persistence(config->fields_number*bs.size(), -1);
     chrono::duration<double> elapsed;
+
 
     cout << "Modeling..." << endl;
     for(int i = 0; i < bs.size(); i++){
@@ -46,10 +47,14 @@ int main(int argc, char* argv[]) {
         auto start = chrono::high_resolution_clock::now();
         for(int j = 0; j < config->fields_number; j++){
             game.set_field(get_field(j, config->L, config->fields_directory));
-            game.evolve(config->total_steps/2);
-            game.evolve(config->total_steps - config->total_steps/2);
+            //Evaluating
+            game.evolve(config->total_steps/2, config->persistence_from, config->persistence_till);
+            game.evolve(config->total_steps - config->total_steps/2, config->persistence_from, config->persistence_till);
+
+            // Statistics
             new_den = game.get_densities();
             densities.insert(densities.end(), new_den.begin()+config->drop_steps+1, new_den.end());
+            persistence[i*config->fields_number+j] = game.get_persistence();
             new_den.clear();
         }
 
@@ -60,15 +65,24 @@ int main(int argc, char* argv[]) {
              << " Time remaining: " << elapsed.count()*(bs.size()-i-1) << " s" << endl;
         cout << "Saving data: ";
 
-        cnpy::npy_save(config->output_file,
+        cnpy::npy_save("densities_" + config->output_file,
                        &densities[0],
                        {i+1, config->fields_number, config->total_steps - config->drop_steps},
                        "w");
         cout << "done" << endl;
     }
-    cnpy::npy_save(config->output_file,
+
+    cnpy::npy_save("density_" + config->output_file + ".npy",
                    &densities[0],
                    {bs.size(), config->fields_number, config->total_steps - config->drop_steps},
                    "w");
+
+    if(config->persistence_from >=0){
+        cnpy::npy_save("persistence_" + config->output_file + ".npy",
+                       &persistence[0],
+                       {bs.size(), config->fields_number},
+                       "w");
+    }
+
     return 0;
 }

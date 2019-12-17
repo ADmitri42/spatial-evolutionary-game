@@ -13,6 +13,7 @@
 MeanGame::MeanGame(int size, double _b){
     L = size;
     field.assign(L*L, 0);
+    unchanged.assign(L*L, 1);
     densities.push_back(0);
     b = _b;
 }
@@ -40,7 +41,7 @@ void MeanGame::set_b(double new_b){
     b = new_b;
 }
 
-std::vector<int> MeanGame::get_field(){
+std::vector<char> MeanGame::get_field(){
     return field;
 }
 
@@ -54,20 +55,29 @@ void MeanGame::set_field(const std::vector<int> &new_field){
     }
     field.assign(new_field.begin(), new_field.end());
     densities.clear();
+    unchanged.assign(L*L, 1);
     densities.push_back(static_cast<double>(accumulate(field.begin(),field.end(),0))/field.size());
+}
+
+/*
+ * Return persistence
+ */
+double MeanGame::get_persistence(){
+    return static_cast<double>(std::accumulate(unchanged.begin(),unchanged.end(),0))/unchanged.size();
 }
 
 /*
  * Evolve num_steps
  */
-void MeanGame::evolve(int num_steps)
+void MeanGame::evolve(int num_steps, int perCalFrom, int perCalTill)
 {
     std::vector<double> scores(L*L, 0);
-    std::vector<int> currentField(L*L, 0);
+    std::vector<char> currentField(L*L, 0);
 
     double density;
+    int time_moment = densities.size();
 
-    for(int step = 0; step < num_steps; step++)
+    for(int step = 0,time_moment = densities.size(); step < num_steps; step++, time_moment++)
     {
         //Field
         std::copy(field.begin(), field.end(), currentField.begin());
@@ -119,10 +129,12 @@ void MeanGame::evolve(int num_steps)
                     }
                 }
             }
-
+            if((perCalFrom >= 0)&&(time_moment > perCalFrom)&&(time_moment < perCalTill)&&(k != bestStrategyIndex)){
+                unchanged[k] = 0;
+            }
             field[k] = currentField[bestStrategyIndex];
         }
-        densities.push_back((1.*accumulate(field.begin(),field.end(),0))/field.size());
+        densities.push_back((1.*std::accumulate(field.begin(),field.end(),0))/field.size());
     }
 
     scores.clear();
@@ -132,7 +144,7 @@ void MeanGame::evolve(int num_steps)
 /*
  * Methods that simplify NumPy Array creation
  */
-int* MeanGame::get_field_pointer(){
+char* MeanGame::get_field_pointer(){
     return &field[0];
 }
 
