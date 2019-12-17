@@ -26,7 +26,7 @@ Config set_field(std::string arg, Config config, bool mess = true){
             config->successful = false;
             std::cerr << "Expected integer, got " << arg << std::endl;
         }
-    }else if(arg.rfind("-NSteps", 0) == 0){ // Total number of steps
+    } else if(arg.rfind("-NSteps", 0) == 0){ // Total number of steps
         int NSteps;
         ss << arg.substr(7, arg.size());
         if(ss >> NSteps){
@@ -35,7 +35,7 @@ Config set_field(std::string arg, Config config, bool mess = true){
             config->successful = false;
             std::cerr << "Expected integer, got " << arg << std::endl;
         }
-    }else if(arg.rfind("-NDrop", 0) == 0){ // Number of steps to be discarded
+    } else if(arg.rfind("-NDrop", 0) == 0){ // Number of steps to be discarded
         int NDrop;
         ss << arg.substr(6, arg.size());
         if(ss >> NDrop){
@@ -44,7 +44,7 @@ Config set_field(std::string arg, Config config, bool mess = true){
             config->successful = false;
             std::cerr << "Expected integer, got " << arg << std::endl;
         }
-    }else if(arg.rfind("-NFields", 0) == 0){ // Number of fields
+    } else if(arg.rfind("-NFields", 0) == 0){ // Number of fields
         int NFields;
         ss << arg.substr(8, arg.size());
         if(ss >> NFields){
@@ -53,11 +53,29 @@ Config set_field(std::string arg, Config config, bool mess = true){
             config->successful = false;
             std::cerr << "Expected integer, got " << arg << std::endl;
         }
-    }else if(arg.rfind("-h", 0) == 0){ // Help
+    } else if(arg.rfind("-h", 0) == 0){ // Help
         config->help = true;
         config->successful = false;
 
-    }else if (mess){ // If we need to print message
+    } else if(arg.rfind("--persist-from", 0) == 0){ // Total number of steps
+        int persist_from;
+        ss << arg.substr(14, arg.size());
+        if(ss >> persist_from){
+            config->persistence_from = persist_from;
+        } else {
+            config->successful = false;
+            std::cerr << "Expected integer, got " << arg << std::endl;
+        }
+    } else if(arg.rfind("--persist-till", 0) == 0){ // Total number of steps
+        int persist_till;
+        ss << arg.substr(14, arg.size());
+        if(ss >> persist_till){
+            config->persistence_till = persist_till;
+        } else {
+            config->successful = false;
+            std::cerr << "Expected integer, got " << arg << std::endl;
+        }
+    } else if (mess){ // If we need to print message
         config->successful=false;
         std::cerr << "Unknown parameter " << arg << std::endl;
     } else {
@@ -72,9 +90,11 @@ Config set_field(std::string arg, Config config, bool mess = true){
 void help_message(std::string prog_name){
     std::cout <<  "Usage: " << prog_name << " [OPTIONS] output_file" << std::endl;
     std::cout << "Options: " << std::endl;
-    std::cout << "\t-L{integer} - Size of the field\n\t-NSteps - Total number of steps" << std::endl;
-    std::cout << "\t-NDrop - Number of steps to be discarded from output" << std::endl;
-    std::cout << "\t-NFields - number of fields in directory 'fields/' in form 'field_{L}_{n}.npy'" << std::endl;
+    std::cout << "\t-L{integer} - Size of the field\n\t-NSteps{integer} - Total number of steps" << std::endl;
+    std::cout << "\t-NDrop{integer} - Number of steps to be discarded from output" << std::endl;
+    std::cout << "\t-NFields{integer} - number of fields in directory 'fields/' in form 'field_{L}_{n}.npy'" << std::endl;
+    std::cout << "\t--persist-from{integer} - the number of step after which start calculate persistence" << std::endl;
+    std::cout << "\t--persist-till{integer} - the number of step after which stop calculating persistence" << std::endl;
 }
 
 std::string err_message(std::string prog_name){
@@ -95,6 +115,8 @@ Config get_config(int argc, char* argv[]){
     config->successful = true;
     config->fields_directory = "fields";
     config->help = false;
+    config->persistence_from = -1;
+    config->persistence_till = -1;
 
     if(argc == 1){
         err_message(argv[0]);
