@@ -10,8 +10,8 @@ cdef extern from "evolve.h":
         int size();
         double get_b();
         void set_b(double);
-        vector[int] get_field();
+        vector[char] get_field();
         void set_field(vector[int]);
 
-        int* get_field_pointer();
+        char* get_field_pointer();
         double* get_densities_pointer();
