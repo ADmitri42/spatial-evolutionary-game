@@ -31,10 +31,14 @@ vector<int> get_field(int num, int L, string f_dir){
 int main(int argc, char* argv[]) {
     Config config = get_config(argc, argv);
     if(!config->successful){
-        return 0;
+        return -1;
     }
     cout << "Initializing variables..." << endl;
-    vector<double> bs = {1.54137931, 1.63793103};
+    vector<double> bs = {1.19830508, 1.40338983, 1.53448276, 1.58275862, 1.63103448, 1.81355932};
+    if(config->payoff>0){
+        bs.clear();
+        bs.push_back(config->payoff);
+    }
     MeanGame game(config->L);
 
     vector<double> densities, new_den, persistence(config->fields_number*bs.size(), -1);

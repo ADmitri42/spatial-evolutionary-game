@@ -26,6 +26,15 @@ Config set_field(std::string arg, Config config, bool mess = true){
             config->successful = false;
             std::cerr << "Expected integer, got " << arg << std::endl;
         }
+    } else if(arg.rfind("--payoff", 0) == 0){ // Field size
+        double b;
+        ss << arg.substr(8, arg.size());
+        if(ss >> b){
+            config->payoff = b;
+        } else {
+            config->successful = false;
+            std::cerr << "Expected integer, got " << arg << std::endl;
+        }
     } else if(arg.rfind("-NSteps", 0) == 0){ // Total number of steps
         int NSteps;
         ss << arg.substr(7, arg.size());
@@ -95,6 +104,7 @@ void help_message(std::string prog_name){
     std::cout << "\t-NFields{integer} - number of fields in directory 'fields/' in form 'field_{L}_{n}.npy'" << std::endl;
     std::cout << "\t--persist-from{integer} - the number of step after which start calculate persistence" << std::endl;
     std::cout << "\t--persist-till{integer} - the number of step after which stop calculating persistence" << std::endl;
+    std::cout << "\t--payoff - the payoff" << std::endl;
 }
 
 std::string err_message(std::string prog_name){
@@ -111,6 +121,7 @@ Config get_config(int argc, char* argv[]){
     config->total_steps = 16000;
     config->drop_steps = 8000;
     config->L = 100;
+    config->payoff=-1.;
     config->fields_number = 40;
     config->successful = true;
     config->fields_directory = "fields";
