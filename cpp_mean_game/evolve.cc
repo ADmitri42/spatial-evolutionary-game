@@ -41,8 +41,10 @@ void MeanGame::set_b(double new_b){
     b = new_b;
 }
 
-std::vector<char> MeanGame::get_field(){
-    return field;
+std::vector<int> MeanGame::get_field(){
+    std::vector<int> ifield;
+    ifield.assign(field.begin(), field.end());
+    return ifield;
 }
 
 /*
@@ -66,6 +68,35 @@ double MeanGame::get_persistence(){
     return static_cast<double>(std::accumulate(unchanged.begin(),unchanged.end(),0))/unchanged.size();
 }
 
+void MeanGame::calculate_scores(std::vector<double> &scores){
+    scores.assign(L*L, 0);
+    double density = densities.back();
+
+    //Payoffs
+    for (int k = 0; k < L*L; k++) {
+        int y = k / L; // Row
+        int x = k % L; // Col
+
+        for (int i = -1; i <= 1; i++) //Row
+        {
+            for (int j = -1; j <= 1; j++) //Col
+            {
+                int memberIndex = (x + i + L) % L + L * ((y + j + L) % L);
+                if((i == 0)&&(j == 0)){
+                    scores[k] += density;
+                } else {
+                    scores[k] += field[memberIndex];// == 0 ? 1 : 0;
+                }
+            }
+        }
+
+        if (field[k] == 0)
+        {
+            scores[k] = scores[k] * b;
+        }
+    }
+}
+
 /*
  * Evolve num_steps
  */
@@ -83,32 +114,10 @@ void MeanGame::evolve(int num_steps, int perCalFrom, int perCalTill)
         std::copy(field.begin(), field.end(), currentField.begin());
 
         //Scores
-        scores.assign(L*L, 0);
         density = densities.back();
 
         //Payoffs
-        for (int k = 0; k < L*L; k++) {
-            int y = k / L; // Row
-            int x = k % L; // Col
-
-            for (int i = -1; i <= 1; i++) //Row
-            {
-                for (int j = -1; j <= 1; j++) //Col
-                {
-                    int memberIndex = (x + i + L) % L + L * ((y + j + L) % L);
-                    if((i == 0)&&(j == 0)){
-                        scores[k] += density;
-                    } else {
-                        scores[k] += field[memberIndex];// == 0 ? 1 : 0;
-                    }
-                }
-            }
-
-            if (field[k] == 0)
-            {
-                scores[k] = scores[k] * b;
-            }
-        }
+        calculate_scores(scores);
 
         //Strategy
         for (int k = 0; k < L*L; k++) {

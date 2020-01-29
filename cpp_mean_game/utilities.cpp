@@ -1,6 +1,68 @@
-#include "utilities.h"
 #include <map>
 #include <assert.h>
+#include "utilities.h"
+#include <iostream>
+
+/******************************
+ ******************************
+ ****                      ****
+ ****   N-M distribution   ****
+ ****                      ****
+ ******************************
+ ******************************/
+
+std::vector<int> n_m_distribution(MeanGame &game){
+    int L = game.size();
+    std::vector<int> field = game.get_field();
+    std::vector<double> score(L*L, 0);
+    game.calculate_scores(score);
+    std::vector<int> nmdistr(9*9, 0);
+    int m, n, is;
+    double n_sc, m_sc;
+
+    for(int x = 0; x < L; ++x){
+        for (int y = 0; y < L; ++y) {
+            n = m = -1;
+            n_sc = m_sc = -22;
+            for (int i = -1; i < 2; ++i) {
+                for (int j = -1; j < 2; ++j) {
+                    is = ((L+y+j)%L)*L+(L + x+i)%L;
+                    if((field[is] == 0)&&(score[is] > m_sc)){
+                        m = field[(L*L+is-L-1)%(L*L)] + field[(L*L+is-L)%(L*L)] + field[(L*L+is-L+1)%(L*L)]
+                                + field[(L*L+is-1)%(L*L)] +  field[(L*L+is+1)%(L*L)]
+                                + field[(L*L+is+L-1)%(L*L)] + field[(L*L+is+L)%(L*L)] + field[(L*L+is+L+1)%(L*L)];
+
+                        m_sc = score[is];
+                    }
+
+                    if((field[is] == 1)&&(score[is] > n_sc)){
+                        n = field[(L*L+is-L-1)%(L*L)] + field[(L*L+is-L)%(L*L)] + field[(L*L+is-L+1)%(L*L)]
+                              + field[(L*L+is-1)%(L*L)] +  field[(L*L+is+1)%(L*L)]
+                              + field[(L*L+is+L-1)%(L*L)] + field[(L*L+is+L)%(L*L)] + field[(L*L+is+L+1)%(L*L)];
+
+                        n_sc = score[is];
+                    }
+                }
+            }
+
+            if((m >= 0)&&(n >= 0)){
+                nmdistr[m*9 + n] += 1;
+            }
+//            std::cout << n << " " << m << std::endl;
+        }
+    }
+    return nmdistr;
+}
+
+
+/************************
+ ************************
+ ****                ****
+ ****   CLUSTERING   ****
+ ****                ****
+ ************************
+ ************************/
+
 /*
  * Search for proper cluster label, since neighbor_cl can be not optimal(optimal == smallest os possible)
  */
