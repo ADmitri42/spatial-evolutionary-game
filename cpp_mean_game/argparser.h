@@ -15,6 +15,7 @@ typedef struct {
     int fields_number;
     int persistence_from;
     int persistence_till;
+    double payoff;
     std::string output_file;
     std::string fields_directory;
     bool successful;
@@ -23,6 +24,5 @@ typedef struct {
 
 typedef pConfig* Config;
 
-Config get_config(int argc, char* argv[]);
 
 #endif //CPP_MEAN_GAME_ARGPARSER_H
