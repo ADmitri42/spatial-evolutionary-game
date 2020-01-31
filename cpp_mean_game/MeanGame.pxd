@@ -1,7 +1,7 @@
-# distutils: sources = evolve.cc
+# distutils: sources = cpp/evolve.cc
 from libcpp.vector cimport vector
 
-cdef extern from "evolve.h":
+cdef extern from "cpp/evolve.h":
     cdef cppclass MeanGame:
         MeanGame(int, double)
         void evolve(int);
@@ -10,7 +10,7 @@ cdef extern from "evolve.h":
         int size();
         double get_b();
         void set_b(double);
-        vector[char] get_field();
+        vector[int] get_field();
         void set_field(vector[int]);
 
         char* get_field_pointer();

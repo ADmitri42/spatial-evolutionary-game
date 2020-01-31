@@ -2,9 +2,10 @@
 import numpy as np
 
 from libcpp.vector cimport vector
-from numpy cimport import_array, PyArray_SimpleNewFromData, NPY_INT, npy_intp, NPY_DOUBLE
+from numpy cimport import_array, PyArray_SimpleNewFromData, NPY_UINT8, npy_intp, NPY_DOUBLE
 
 from MeanGame cimport MeanGame
+from utilities cimport py_n_m_distribution, clustering, LabeledField
 
 cdef class MeanGamePy:
     cdef:
@@ -29,7 +30,7 @@ cdef class MeanGamePy:
         cdef npy_intp dims[2]
         dims[0] = self._L
         dims[1] = self._L
-        return PyArray_SimpleNewFromData(2, dims, NPY_UINT88, self.c_game.get_field_pointer())
+        return PyArray_SimpleNewFromData(2, dims, NPY_UINT8, self.c_game.get_field_pointer())
 
     @field.setter
     def field(self, arr):
@@ -38,7 +39,7 @@ cdef class MeanGamePy:
         if len(arr.shape) != 2:
             raise ValueError("Expected a 2D array, got %s-d." % len(arr.shape))
         if arr.size != self._L*self._L:
-            raise ValueError("Size mismatch: expected %s, got %s." % (self._L*self._L, arr.size))
+            raise ValueError(f"Size mismatch: expected {self._L*self._L}, got {arr.size}.")
 
         arr = arr.ravel()
         cdef vector[int] vec;
@@ -65,5 +66,32 @@ cdef class MeanGamePy:
 
     def evolve(self, int num_steps = 1):
         self.c_game.evolve(num_steps)
+
+    def n_m_distribution(self):
+        cdef vector[int] result = py_n_m_distribution(self.c_game)
+        cdef npy_intp dims[2]
+        cdef int x, y
+        dims[0] = 9
+        dims[1] = 9
+
+        nmdist = np.zeros((9, 9), dtype="int")
+        for x in range(9):
+            for y in range(9):
+                # print(result[y*9 + x])
+                nmdist[y, x] = result[y*9 + x]
+        return nmdist
+
+    # def cluster_sizes(self):
+    #     cdef:
+    #         LabeledField* result = clustering(self.c_game.get_field(), self._L, self._L)
+    #         npy_intp dimsf[2]
+    #         npy_intp dimss[1]
+    #     dimsf[0] = self._L
+    #     dimsf[1] = self._L
+    #     dimss[0] = result.cluster_sizes.size()
+    #     lab_field = PyArray_SimpleNewFromData(2, dimsf, NPY_UINT8, &result.labeled_field[0])
+    #     cluster_sizes = PyArray_SimpleNewFromData(1, dimss, NPY_UINT8, &result.cluster_sizes[0])
+    #     return lab_field, cluster_sizes
+
 
 import_array()

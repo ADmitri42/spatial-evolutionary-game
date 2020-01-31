@@ -17,7 +17,7 @@ std::vector<int> n_m_distribution(MeanGame &game){
     std::vector<double> score(L*L, 0);
     game.calculate_scores(score);
     std::vector<int> nmdistr(9*9, 0);
-    int m, n, is;
+    int m, n, is, x1, x2, x3, y1, y2, y3;
     double n_sc, m_sc;
 
     for(int x = 0; x < L; ++x){
@@ -27,18 +27,26 @@ std::vector<int> n_m_distribution(MeanGame &game){
             for (int i = -1; i < 2; ++i) {
                 for (int j = -1; j < 2; ++j) {
                     is = ((L+y+j)%L)*L+(L + x+i)%L;
+                    x1 = (L+x+i-1)%L;
+                    x2 = (L+x+i)%L;
+                    x3 = (L+x+i+1)%L;
+
+                    y1 = (L+y+j-1)%L;
+                    y2 = (L+y+j)%L;
+                    y3 = (L+y+j+1)%L;
+
                     if((field[is] == 0)&&(score[is] > m_sc)){
-                        m = field[(L*L+is-L-1)%(L*L)] + field[(L*L+is-L)%(L*L)] + field[(L*L+is-L+1)%(L*L)]
-                                + field[(L*L+is-1)%(L*L)] +  field[(L*L+is+1)%(L*L)]
-                                + field[(L*L+is+L-1)%(L*L)] + field[(L*L+is+L)%(L*L)] + field[(L*L+is+L+1)%(L*L)];
+                        m = field[y1*L + x1] + field[y1*L + x2] + field[y1*L + x3]
+                                + field[y2*L + x1] +  field[y2*L + x3]
+                                + field[y3*L + x1] + field[y3*L + x2] + field[y3*L + x3];
 
                         m_sc = score[is];
                     }
 
                     if((field[is] == 1)&&(score[is] > n_sc)){
-                        n = field[(L*L+is-L-1)%(L*L)] + field[(L*L+is-L)%(L*L)] + field[(L*L+is-L+1)%(L*L)]
-                              + field[(L*L+is-1)%(L*L)] +  field[(L*L+is+1)%(L*L)]
-                              + field[(L*L+is+L-1)%(L*L)] + field[(L*L+is+L)%(L*L)] + field[(L*L+is+L+1)%(L*L)];
+                        n = field[y1*L + x1] + field[y1*L + x2] + field[y1*L + x3]
+                            + field[y2*L + x1] +  field[y2*L + x3]
+                            + field[y3*L + x1] + field[y3*L + x2] + field[y3*L + x3];
 
                         n_sc = score[is];
                     }
@@ -52,6 +60,12 @@ std::vector<int> n_m_distribution(MeanGame &game){
         }
     }
     return nmdistr;
+}
+
+
+std::vector<int> py_n_m_distribution(MeanGame* game){
+    MeanGame& g = *game;
+    return n_m_distribution(g);
 }
 
 

@@ -14,7 +14,7 @@ import numpy as np
 #       ))
 
 setup(ext_modules=[Extension("meangame",
-                             ["meangame.pyx", "evolve.cc"],
+                             ["meangame.pyx", "cpp/evolve.cc", "cpp/utilities.cpp"],
                              language="c++",
                              include_path = [np.get_include(),])],
       cmdclass = {'build_ext': build_ext})
