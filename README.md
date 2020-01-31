@@ -21,7 +21,7 @@ Let's take a quick look at files:
 - [data\\density_of_cooperators5.npy](data\density_of_cooperators5.npy) - densities of cooperators with initial densities of 0.5
 - [data\\density_of_cooperators515-17.npy](data\density_of_cooperators515-17.npy) - same but b between 1.5 and 1.7
 
-* [cpp_mean_game\\](cpp_mean_game) - Folder with C++ and Cython realization of the game
+- [cpp_mean_game\\](cpp_mean_game) - Folder with C++ and Cython realization of the game
 - [cpp_mean_game\\cpp](cpp_mean_game\cpp) - Folder with C++ code
 - [cpp_mean_game\\test](cpp_mean_game\test) - Folder with tests(uses pytest)
 
