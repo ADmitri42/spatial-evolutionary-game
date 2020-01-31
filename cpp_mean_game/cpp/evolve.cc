@@ -43,7 +43,10 @@ void MeanGame::set_b(double new_b){
 
 std::vector<int> MeanGame::get_field(){
     std::vector<int> ifield;
-    ifield.assign(field.begin(), field.end());
+    for(auto t: field){
+        ifield.push_back(static_cast<int>(t));
+    }
+//    ifield.assign(field.begin(), field.end());
     return ifield;
 }
 
@@ -55,7 +58,10 @@ void MeanGame::set_field(const std::vector<int> &new_field){
     if(new_field.size() != L*L){
         throw std::length_error("Wrong size");
     }
-    field.assign(new_field.begin(), new_field.end());
+    for(int i = 0; i < field.size(); i++){
+        field[i] = new_field[i];
+    }
+//    field.assign(new_field.begin(), new_field.end());
     densities.clear();
     unchanged.assign(L*L, 1);
     densities.push_back(static_cast<double>(accumulate(field.begin(),field.end(),0))/field.size());

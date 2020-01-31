@@ -17,4 +17,6 @@ typedef struct LBF {
 
 std::vector<int> n_m_distribution(MeanGame &game);
 LabeledField* clustering(const std::vector<int>& field, int N, int M);
+
+std::vector<int> py_n_m_distribution(MeanGame *game);
 #endif //DYNAMIC_FRACTALS_CLUSTERING_H
