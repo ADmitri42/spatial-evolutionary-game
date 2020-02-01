@@ -2,6 +2,8 @@
 #include <assert.h>
 #include "utilities.h"
 #include <iostream>
+#include <algorithm>
+#include <unordered_set>
 
 /******************************
  ******************************
@@ -112,22 +114,20 @@ int assign_label(int left, int top, int right, int bottom, std::vector<int> &N){
             N[label] += 1;
             break;
         default:
-            int label1 = classify(left, N);
-            int label2 = classify(top, N);
-            int label3 = classify(top, N);
-            int label4 = classify(top, N);
-            if (label1 == label2){
-                label = label1;
-            } else if (label1 > label2){
-                label = label2;
-                N[label] += N[label1];
-                N[label1] = -label;
-            } else {
-                label = label1;
-                N[label] += N[label2];
-                N[label2] = -label;
+            std::unordered_set<int> labels = {left, top, right, bottom};
+            std::unordered_set<int> right_labels;
+            for(auto t: labels){
+                if(t > 0){
+                    right_labels.insert(classify(t, N));
+                }
             }
-            N[label] += 1;
+            label = *std::min_element(right_labels.begin(), right_labels.end());
+            int size = 0;
+            for(auto t: right_labels){
+                size += N[t];
+                N[t] = -label;
+            }
+            N[label] = size + 1;
             break;
     }
     return label;
@@ -184,7 +184,7 @@ LabeledField** clustering(const std::vector<int>& field, int N, int M){
         lbf[field[i]]->labeled_field[i] = assign_label(lbf[field[i]]->labeled_field[ileft],
                                                  lbf[field[i]]->labeled_field[itop],
                                                  lbf[field[i]]->labeled_field[iright],
-                                                 lbf[field[i]]->labeled_field[ibottom]
+                                                 lbf[field[i]]->labeled_field[ibottom],
                                                  lbf[field[i]]->cluster_sizes);
     }
 
