@@ -10,19 +10,19 @@ private:
 
     std::vector<double> densities;
 
-    int L;
+    size_t L;
     double b;
     int perCalFrom;
     int perCalTill;
 
 public:
-    MeanGame(int size, double _b=1.8);
+    MeanGame(size_t size, double _b=1.8);
 
     void calculate_scores(std::vector<double> &scores);
     void evolve(int num_steps = 0, int percfrom = -1, int perctill = -1);
 
     std::vector<double> get_densities();
-    int size();
+    size_t size();
     double get_b();
     void set_b(double new_b);
     std::vector<int> get_field();
