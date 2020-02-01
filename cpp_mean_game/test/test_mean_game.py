@@ -150,8 +150,8 @@ def test_distribution(mean_game, field, distribution):
 
 def test_clusterization(mean_game, evolved_field, labeled_zeros, labeled_ones):
     mean_game.field = evolved_field
-    field0, sizes0, field1, sizes1 = mean_game.clusterization()
+    field0, sizes0, field1, sizes1 = mean_game.clustering()
     assert (field0 == labeled_zeros).all()
     assert (field1 == labeled_ones).all()
     assert (sizes0 == np.array([0, 133, 5], dtype="int")).all()
-    assert (sizes1 - np.array([0, 81, 144, 37], dtype="int")).all()
+    assert (sizes1 == np.array([0, 81, 144, 37], dtype="int")).all()

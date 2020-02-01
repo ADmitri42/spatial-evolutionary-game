@@ -2,7 +2,7 @@
 import numpy as np
 
 from libcpp.vector cimport vector
-from numpy cimport import_array, PyArray_SimpleNewFromData, NPY_UINT8, npy_intp, NPY_DOUBLE
+from numpy cimport import_array, PyArray_SimpleNewFromData, NPY_UINT8, NPY_UINT32, NPY_INT32, npy_intp, NPY_DOUBLE
 
 from MeanGame cimport MeanGame
 from utilities cimport py_n_m_distribution, clustering, LabeledField
@@ -78,18 +78,28 @@ cdef class MeanGamePy:
                 nmdist[y, x] = result[y*9 + x]
         return nmdist
 
-    def clusterization(self, size_only=False):
-        pass
-        # cdef:
-        #     LabeledField* result = clustering(self.c_game.get_field(), self._L, self._L)
-        #     npy_intp dimsf[2]
-        #     npy_intp dimss[1]
-        # dimsf[0] = self._L
-        # dimsf[1] = self._L
-        # dimss[0] = result.cluster_sizes.size()
-        # lab_field = PyArray_SimpleNewFromData(2, dimsf, NPY_UINT8, &result.labeled_field[0])
-        # cluster_sizes = PyArray_SimpleNewFromData(1, dimss, NPY_UINT8, &result.cluster_sizes[0])
-        # return lab_field, cluster_sizes
+    def clustering(self, size_only=False):
+        cdef:
+            LabeledField** result = clustering(self.c_game.get_field(), self._L, self._L)
+            npy_intp dims[2]
+            npy_intp dimss[1]
+            int x, y
+
+        zeros = []
+        ones = []
+        if(not size_only):
+            dims[0] = self._L
+            dims[1] = self._L
+            zeros.append(PyArray_SimpleNewFromData(2, dims, NPY_UINT32, &result[0].labeled_field[0]))
+            ones.append(PyArray_SimpleNewFromData(2, dims, NPY_UINT32, &result[1].labeled_field[0]))
+
+
+        dimss[0] = result[0].cluster_sizes.size()
+        zeros.append(PyArray_SimpleNewFromData(1, dimss, NPY_INT32, &result[0].cluster_sizes[0]))
+        dimss[0] = result[1].cluster_sizes.size()
+        ones.append(PyArray_SimpleNewFromData(1, dimss, NPY_INT32, &result[1].cluster_sizes[0]))
+        zeros.extend(ones)
+        return zeros
 
 
 import_array()
