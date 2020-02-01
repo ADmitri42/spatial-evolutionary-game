@@ -11,12 +11,13 @@
 typedef struct LBF {
     std::vector<int> labeled_field;
     std::vector<int> cluster_sizes;
-    LBF(int field_size = 1):labeled_field(field_size, 0), cluster_sizes(1, 0) { }
+    LBF(int field_size = 1): labeled_field(field_size, 0), cluster_sizes(1, 0) { }
 } LabeledField;
 
 
 std::vector<int> n_m_distribution(MeanGame &game);
-LabeledField* clustering(const std::vector<int>& field, int N, int M);
+LabeledField** clustering(const std::vector<int>& field, int N, int M);
+LabeledField** clustering(MeanGame &game);
 
 std::vector<int> py_n_m_distribution(MeanGame *game);
 #endif //DYNAMIC_FRACTALS_CLUSTERING_H
