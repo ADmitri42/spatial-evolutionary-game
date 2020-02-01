@@ -2,14 +2,14 @@
 
 In this game L<sup>2</sup> individual "*players*" placed in two-dimensional spatial array.
 
-Every individual can play one of two tactics: cooperate or defect. At the begining of the "games" each player has probability of being assigned $\mathcal{C}$ with probability $p_c$ and tactics $\mathcal{D}$ in other way.
+Every individual can play one of two tactics: cooperate or defect. At the begining of the "games" each player has probability of being assigned **C** with probability **p<sub>c</sub>** and tactics **D** in other way.
 
 In each round individuals "*play the game*" with 8 its neighbours and the *average cooperator*.
 
 After all games played the site occupied either by its original owner or by one of the neighbours who scores the highest total payoff in that round.
 
 ## Where is what?
-Let's take a quick look at filуs:
+Let's take a quick look at files:
 
 * [spatial evolutionary game.ipynb](spatial%20evolutionary%20game.ipynb) - The main notebook where one can find all main information
 * [draft.ipynb](draft.ipynb) - used for experiments and testing
@@ -17,11 +17,13 @@ Let's take a quick look at filуs:
 * [figures\\](figures) - Graphs and other images
 - [data\\](data) - Folder with all generated data
 - [data\\density_of_cooperators.npy](data\density_of_cooperators.npy) - densities of cooperators with initial densities of 0.9
-- [data\\density_of_cooperators.npy](data\density_of_cooperators15-17.npy) - same but b between 1.5 and 1.7
-- [data\\density_of_cooperators.npy](data\density_of_cooperators5.npy) - densities of cooperators with initial densities of 0.5
-- [data\\density_of_cooperators.npy](data\density_of_cooperators515-17.npy) - same but b between 1.5 and 1.7
+- [data\\density_of_cooperators15-17.npy](data\density_of_cooperators15-17.npy) - same but b between 1.5 and 1.7
+- [data\\density_of_cooperators5.npy](data\density_of_cooperators5.npy) - densities of cooperators with initial densities of 0.5
+- [data\\density_of_cooperators515-17.npy](data\density_of_cooperators515-17.npy) - same but b between 1.5 and 1.7
 
-* [cpp_mean_game\\](cpp_mean_game) - Folder with C++ and Cython realization of the game
+- [cpp_mean_game\\](cpp_mean_game) - Folder with C++ and Cython realization of the game
+- [cpp_mean_game\\cpp](cpp_mean_game\cpp) - Folder with C++ code
+- [cpp_mean_game\\test](cpp_mean_game\test) - Folder with tests(uses pytest)
 
 ## How to setup
 To use whole speed of C++ and Cython one have to compile code with -O3 optimization.
