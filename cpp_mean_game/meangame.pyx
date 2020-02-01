@@ -69,10 +69,7 @@ cdef class MeanGamePy:
 
     def n_m_distribution(self):
         cdef vector[int] result = py_n_m_distribution(self.c_game)
-        cdef npy_intp dims[2]
         cdef int x, y
-        dims[0] = 9
-        dims[1] = 9
 
         nmdist = np.zeros((9, 9), dtype="int")
         for x in range(9):
@@ -81,17 +78,18 @@ cdef class MeanGamePy:
                 nmdist[y, x] = result[y*9 + x]
         return nmdist
 
-    # def cluster_sizes(self):
-    #     cdef:
-    #         LabeledField* result = clustering(self.c_game.get_field(), self._L, self._L)
-    #         npy_intp dimsf[2]
-    #         npy_intp dimss[1]
-    #     dimsf[0] = self._L
-    #     dimsf[1] = self._L
-    #     dimss[0] = result.cluster_sizes.size()
-    #     lab_field = PyArray_SimpleNewFromData(2, dimsf, NPY_UINT8, &result.labeled_field[0])
-    #     cluster_sizes = PyArray_SimpleNewFromData(1, dimss, NPY_UINT8, &result.cluster_sizes[0])
-    #     return lab_field, cluster_sizes
+    def clusterization(self, size_only=False):
+        pass
+        # cdef:
+        #     LabeledField* result = clustering(self.c_game.get_field(), self._L, self._L)
+        #     npy_intp dimsf[2]
+        #     npy_intp dimss[1]
+        # dimsf[0] = self._L
+        # dimsf[1] = self._L
+        # dimss[0] = result.cluster_sizes.size()
+        # lab_field = PyArray_SimpleNewFromData(2, dimsf, NPY_UINT8, &result.labeled_field[0])
+        # cluster_sizes = PyArray_SimpleNewFromData(1, dimss, NPY_UINT8, &result.cluster_sizes[0])
+        # return lab_field, cluster_sizes
 
 
 import_array()
