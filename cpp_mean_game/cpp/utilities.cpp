@@ -14,7 +14,7 @@
  ******************************/
 
 std::vector<int> n_m_distribution(MeanGame &game){
-    int L = game.size();
+    size_t L = game.size();
     std::vector<int> field = game.get_field();
     std::vector<double> score(L*L, 0);
     game.calculate_scores(score);
@@ -22,8 +22,8 @@ std::vector<int> n_m_distribution(MeanGame &game){
     int m, n, is, x1, x2, x3, y1, y2, y3;
     double n_sc, m_sc;
 
-    for(int x = 0; x < L; ++x){
-        for (int y = 0; y < L; ++y) {
+    for(size_t x = 0; x < L; ++x){
+        for (size_t y = 0; y < L; ++y) {
             n = m = -1;
             n_sc = m_sc = -22;
             for (int i = -1; i < 2; ++i) {
@@ -137,11 +137,12 @@ int assign_label(int left, int top, int right, int bottom, std::vector<int> &N){
 LabeledField* fix_labels(LabeledField* lbf){
     std::vector<int> w_cluster_sizes; // For every label on the field it contains size of the cluster
     std::map<int, int> fixed_label;
+
     w_cluster_sizes.assign(lbf->cluster_sizes.begin(), lbf->cluster_sizes.end());
     lbf->cluster_sizes.clear();
     lbf->cluster_sizes.push_back(0);
 
-    for(int i = 0, counter = 1; i < w_cluster_sizes.size(); ++i){
+    for(size_t i = 0, counter = 1; i < w_cluster_sizes.size(); ++i){
         if(w_cluster_sizes[i] > 0){
             fixed_label[i] = lbf->cluster_sizes.size();
             lbf->cluster_sizes.push_back(w_cluster_sizes[i]);
@@ -149,7 +150,7 @@ LabeledField* fix_labels(LabeledField* lbf){
         }
     }
 
-    for(int i = 0; i < lbf->labeled_field.size(); ++i){
+    for(size_t i = 0; i < lbf->labeled_field.size(); ++i){
         if(lbf->labeled_field[i] > 0){
             lbf->labeled_field[i] = fixed_label[classify(lbf->labeled_field[i],
                                                          w_cluster_sizes)];
@@ -165,27 +166,28 @@ LabeledField* fix_labels(LabeledField* lbf){
  * M - vertical size of the field
  * field - vector of size N*M
  */
-LabeledField** clustering(const std::vector<int>& field, int N, int M){
-    assert((N*M == field.size()));
+LabeledField **clustering(const std::vector<int> &field, int N, int M) {
+    assert((N * M == field.size()));
 
     // Variables
     int ileft, itop, iright, ibottom;
-    std::vector<int> w_cluster_sizes(1, 0); // For every label on the field it contains size of the cluster
+    std::vector<int>   w_cluster_sizes(1, 0); // For every label on the field it contains size of the cluster
     std::map<int, int> fixed_label;
-    LabeledField** lbf = new LabeledField*[2];
+
+    LabeledField **lbf = new LabeledField *[2];
     lbf[0] = new LabeledField(field.size());
     lbf[1] = new LabeledField(field.size());
 
-    for(int i = 0; i < field.size(); ++i){
-        ileft = (N + i - 1)%N + (i/N) * N;
-        itop = (N*M + i - N)%(N*M);
-        iright = (N + i + 1)%N + (i/N) * N;
-        ibottom = (N*M + i + N)%(N*M);
+    for (size_t i = 0; i < field.size(); ++i) {
+        ileft   = (N + i - 1) % N + (i / N) * N;
+        itop    = (N * M + i - N) % (N * M);
+        iright  = (N + i + 1) % N + (i / N) * N;
+        ibottom = (N * M + i + N) % (N * M);
         lbf[field[i]]->labeled_field[i] = assign_label(lbf[field[i]]->labeled_field[ileft],
-                                                 lbf[field[i]]->labeled_field[itop],
-                                                 lbf[field[i]]->labeled_field[iright],
-                                                 lbf[field[i]]->labeled_field[ibottom],
-                                                 lbf[field[i]]->cluster_sizes);
+                                                       lbf[field[i]]->labeled_field[itop],
+                                                       lbf[field[i]]->labeled_field[iright],
+                                                       lbf[field[i]]->labeled_field[ibottom],
+                                                       lbf[field[i]]->cluster_sizes);
     }
 
 

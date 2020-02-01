@@ -10,7 +10,7 @@
  * size - length of field
  * _b - initial payoff parameter
  */
-MeanGame::MeanGame(int size, double _b){
+MeanGame::MeanGame(size_t size, double _b){
     L = size;
     field.assign(L*L, 0);
     unchanged.assign(L*L, 1);
@@ -25,7 +25,7 @@ std::vector<double> MeanGame::get_densities(){
     return densities;
 }
 
-int MeanGame::size(){
+size_t MeanGame::size(){
     return L;
 }
 
@@ -58,7 +58,7 @@ void MeanGame::set_field(const std::vector<int> &new_field){
     if(new_field.size() != L*L){
         throw std::length_error("Wrong size");
     }
-    for(int i = 0; i < field.size(); i++){
+    for(size_t i = 0; i < field.size(); i++){
         field[i] = new_field[i];
     }
 //    field.assign(new_field.begin(), new_field.end());
@@ -79,7 +79,7 @@ void MeanGame::calculate_scores(std::vector<double> &scores){
     double density = densities.back();
 
     //Payoffs
-    for (int k = 0; k < L*L; k++) {
+    for (size_t k = 0; k < L*L; k++) {
         int y = k / L; // Row
         int x = k % L; // Col
 
@@ -87,7 +87,7 @@ void MeanGame::calculate_scores(std::vector<double> &scores){
         {
             for (int j = -1; j <= 1; j++) //Col
             {
-                int memberIndex = (x + i + L) % L + L * ((y + j + L) % L);
+                size_t memberIndex = (x + i + L) % L + L * ((y + j + L) % L);
                 if((i == 0)&&(j == 0)){
                     scores[k] += density;
                 } else {
@@ -111,32 +111,26 @@ void MeanGame::evolve(int num_steps, int perCalFrom, int perCalTill)
     std::vector<double> scores(L*L, 0);
     std::vector<char> currentField(L*L, 0);
 
-    double density;
-    int time_moment = densities.size();
-
     for(int step = 0,time_moment = densities.size(); step < num_steps; step++, time_moment++)
     {
         //Field
         std::copy(field.begin(), field.end(), currentField.begin());
 
-        //Scores
-        density = densities.back();
-
         //Payoffs
         calculate_scores(scores);
 
         //Strategy
-        for (int k = 0; k < L*L; k++) {
+        for (size_t k = 0; k < L*L; k++) {
             int y = k / L; // Row
             int x = k % L; // Col
 
-            int bestStrategyIndex = k;
+            size_t bestStrategyIndex = k;
 
             for (int i = -1; i <= 1; i++) //Row
             {
                 for (int j = -1; j <= 1; j++) //Col
                 {
-                    int memberIndex = (x + i + L) % L + L * ((y + j + L) % L);
+                    size_t memberIndex = (x + i + L) % L + L * ((y + j + L) % L);
 
                     if (scores[bestStrategyIndex] < scores[memberIndex])
                     {
