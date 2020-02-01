@@ -99,21 +99,23 @@ int classify(int neighbor_cl, std::vector<int> &N){
 /*
  * Return proper label base on labels of top and left neighbours(0 if not proper class)
  */
-int assign_label(int left, int top, std::vector<int> &N){
+int assign_label(int left, int top, int right, int bottom, std::vector<int> &N){
     int label;
-    switch (!!left + !!top){
+    switch (!!left + !!top + !!right + !!bottom){
         case 0:
             N.push_back(1);
             label = N.size() - 1;
             break;
         case 1:
-            label = (left == 0) ? top : left;
+            label = std::max(std::max(top, bottom), std::max(left, right));
             label = classify(label, N);
             N[label] += 1;
             break;
-        case 2:
+        default:
             int label1 = classify(left, N);
             int label2 = classify(top, N);
+            int label3 = classify(top, N);
+            int label4 = classify(top, N);
             if (label1 == label2){
                 label = label1;
             } else if (label1 > label2){
@@ -131,33 +133,14 @@ int assign_label(int left, int top, std::vector<int> &N){
     return label;
 }
 
-/*
- * Return field with labels
- * N - horizontal size of the field
- * M - vertical size of the field
- * field - vector of size N*M
- */
-LabeledField* clustering(const std::vector<int>& field, int N, int M){
-    assert((N*M == field.size()));
 
-    // Variables
-    int ileft, itop;
-    std::vector<int> w_cluster_sizes(1, 0); // For every label on the field it contains size of the cluster
+LabeledField* fix_labels(LabeledField* lbf){
+    std::vector<int> w_cluster_sizes; // For every label on the field it contains size of the cluster
     std::map<int, int> fixed_label;
-    LabeledField* lbf = new LabeledField(field.size());
+    w_cluster_sizes.assign(lbf->cluster_sizes.begin(), lbf->cluster_sizes.end());
+    lbf->cluster_sizes.clear();
+    lbf->cluster_sizes.push_back(0);
 
-
-    for(int i = 0; i < field.size(); ++i){
-        if(field[i]){
-            ileft = (N + i - 1)%N + (i/N) * N;
-            itop = (N*M + i - N)%(N*M);
-            lbf->labeled_field[i] = assign_label(lbf->labeled_field[ileft],
-                                                 lbf->labeled_field[itop],
-                                                 w_cluster_sizes);
-        }
-    }
-
-    // Create map object where current label placed against
     for(int i = 0, counter = 1; i < w_cluster_sizes.size(); ++i){
         if(w_cluster_sizes[i] > 0){
             fixed_label[i] = lbf->cluster_sizes.size();
@@ -166,11 +149,49 @@ LabeledField* clustering(const std::vector<int>& field, int N, int M){
         }
     }
 
-    for(int i = 0; i < field.size(); ++i){
-        if(field[i]){
+    for(int i = 0; i < lbf->labeled_field.size(); ++i){
+        if(lbf->labeled_field[i] > 0){
             lbf->labeled_field[i] = fixed_label[classify(lbf->labeled_field[i],
-                                                          w_cluster_sizes)];
+                                                         w_cluster_sizes)];
         }
     }
+    return lbf;
+}
+
+
+/*
+ * Return field with labels
+ * N - horizontal size of the field
+ * M - vertical size of the field
+ * field - vector of size N*M
+ */
+LabeledField** clustering(const std::vector<int>& field, int N, int M){
+    assert((N*M == field.size()));
+
+    // Variables
+    int ileft, itop, iright, ibottom;
+    std::vector<int> w_cluster_sizes(1, 0); // For every label on the field it contains size of the cluster
+    std::map<int, int> fixed_label;
+    LabeledField** lbf = new LabeledField*[2];
+    lbf[0] = new LabeledField(field.size());
+    lbf[1] = new LabeledField(field.size());
+
+    for(int i = 0; i < field.size(); ++i){
+        ileft = (N + i - 1)%N + (i/N) * N;
+        itop = (N*M + i - N)%(N*M);
+        iright = (N + i + 1)%N + (i/N) * N;
+        ibottom = (N*M + i + N)%(N*M);
+        lbf[field[i]]->labeled_field[i] = assign_label(lbf[field[i]]->labeled_field[ileft],
+                                                 lbf[field[i]]->labeled_field[itop],
+                                                 lbf[field[i]]->labeled_field[iright],
+                                                 lbf[field[i]]->labeled_field[ibottom]
+                                                 lbf[field[i]]->cluster_sizes);
+    }
+
+
+
+    // Create map object where current label placed against
+    lbf[0] = fix_labels(lbf[0]);
+    lbf[1] = fix_labels(lbf[1]);
     return lbf;
 }
