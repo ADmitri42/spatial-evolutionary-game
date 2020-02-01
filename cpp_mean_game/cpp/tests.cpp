@@ -111,36 +111,58 @@ int main() {
 
     cout << "Clustering:\t\t";
     pass = true;
-    field = {1, 0, 0, 1, 1,
+    field = {1, 0, 0, 1, 0,
              0, 1, 1, 1, 0,
              1, 0, 0, 0, 0,
              1, 0, 1, 1, 0,
              0, 0, 1, 0, 0};
 
-    vector<int> labeled_field = {1, 0, 0, 2, 2,
+    vector<int> labeled_field = {1, 0, 0, 2, 0,
                                  0, 2, 2, 2, 0,
                                  3, 0, 0, 0, 0,
                                  3, 0, 4, 4, 0,
                                  0, 0, 4, 0, 0};
-    vector<int> cluster_size = {0, 1, 5, 2, 3};
-    LabeledField* lbf = clustering(field, 5, 5);
+    vector<int> cluster_size = {0, 1, 4, 2, 3};
+    LabeledField** lbf = clustering(field, 5, 5);
 
-    if(lbf->cluster_sizes.size() != cluster_size.size()){
+    if(lbf[1]->cluster_sizes.size() != cluster_size.size()){
         cout << failed << endl;
-        cout << "\tWrong number of clusters" << endl;
+        cout << "\tWrong number of 1's clusters(" << lbf[1]->cluster_sizes.size() << " instead of " << cluster_size.size() << endl;
         pass = false;
-    } else if(lbf->labeled_field.size() != labeled_field.size()){
+        for (int i = 0; i < 5; ++i) {
+            for (int j = 0; j < 5; ++j) {
+                std::cout << lbf[1]->labeled_field[i*5+j];
+            }
+            std::cout << std::endl;
+        }
+    } else if(lbf[0]->cluster_sizes.size() != 2){
+        cout << failed << endl;
+        cout << "\tWrong number of 0's clusters" << endl;
+        for (int i = 0; i < 5; ++i) {
+            for (int j = 0; j < 5; ++j) {
+                std::cout << lbf[0]->labeled_field[i*5+j];
+            }
+            std::cout << std::endl;
+        }
+        for(auto t: lbf[1]->cluster_sizes){
+            std::cout << t << " ";
+        }
+        pass = false;
+    } else if(lbf[1]->labeled_field.size() != labeled_field.size()){
         cout << failed << endl;
         cout << "\tWrong size of field" << endl;
         pass = false;
     } else {
-        if(!(lbf->labeled_field == labeled_field)){
+        if(!(lbf[1]->labeled_field == labeled_field)){
             cout << failed << endl;
             cout << "\tWrong cluster number" << endl;
             pass = false;
         }
-        if(!(lbf->cluster_sizes == cluster_size)){
+        if(!(lbf[1]->cluster_sizes == cluster_size)){
             cout << failed << endl;
+            for(auto t: lbf[1]->cluster_sizes){
+                std::cout << t << " ";
+            }
             cout << "\tWrong cluster size" << endl;
             pass = false;
         }
