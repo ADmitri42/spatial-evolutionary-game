@@ -10,4 +10,4 @@ cdef extern from "cpp/utilities.h":
     ctypedef LBF LabeledField;
 
     vector[int] py_n_m_distribution(MeanGame*);
-    LabeledField* clustering(const vector[int]&, int, int);
+    LabeledField** clustering(const vector[int]&, int, int);
