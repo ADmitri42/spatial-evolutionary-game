@@ -75,7 +75,9 @@ for i in range(2):
     for b in range(len(config["parameters"])):
         count = Counter(clustersizes[i][b])
         for k, s in count.items():
+            if k == 0:
+                continue
             clustsizesdist[i, b, k] = s
 
 np.save(os.path.join(path_to_results, "nmdistribution.npy"), np.array(nmdists))
-np.save(os.path.join(path_to_results, "clustersizedist.npy"), np.array(clustsizesdist))
+np.save(os.path.join(path_to_results, "clustersizedist.npy"), clustsizesdist)
