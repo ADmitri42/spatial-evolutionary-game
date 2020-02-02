@@ -7,7 +7,7 @@ optcython:
 	rm meangame.cpp
 
 pytest:
-	python3 -m pytest -q test/
+	python3 -m pytest -q ./cpp_mean_game/test/
 
 testcpp:
 	g++ -o test.out cpp/tests.cpp cpp/utilities.cpp cpp/evolve.cc && ./test.out
