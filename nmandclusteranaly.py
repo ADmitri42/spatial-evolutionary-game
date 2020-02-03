@@ -6,7 +6,7 @@ from collections import Counter
 import numpy as np
 from tqdm import tqdm
 from meangame import MeanGamePy
-
+import pdb
 
 def configure_workflow(config_file: str):
     with open(config_file) as f:
@@ -54,6 +54,7 @@ max_size = 0
 for b in tqdm(config["parameters"]):
     nmdist = np.zeros((1, 9, 9), dtype="int")
     clustersize = [[], []]
+    game.b = b
     for i in range(config["fields"]["quantity"]):
         game.field = np.load(field_temp.format(i))
         game.evolve(config["steps"]["drop"])
@@ -64,6 +65,7 @@ for b in tqdm(config["parameters"]):
             clustersize[0].extend(cl0.tolist())
             clustersize[1].extend(cl1.tolist())
 
+    pdb.set_trace()
     nmdists.append(nmdist)
     max_size = max(max(max(clustersize[0]), max(clustersize[1])), max_size)
     clustersizes[0].append(clustersize[0])
