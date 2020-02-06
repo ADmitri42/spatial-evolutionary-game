@@ -10,11 +10,13 @@ from utilities cimport py_n_m_distribution, clustering, LabeledField
 cdef class MeanGamePy:
     cdef:
         MeanGame *c_game;
-        cdef int _L
+        cdef int _L, percfrom, perctill
 
-    def __cinit__(self, int L, double b):
+    def __cinit__(self, int L, double b, int percfrom=-1, perctill=-1):
         self.c_game = new MeanGame(L, b)
         self._L = L
+        self.percfrom = percfrom;
+        self.perctill = perctill;
 
     def __dealloc__(self):
         del self.c_game
@@ -64,8 +66,12 @@ cdef class MeanGamePy:
         dims[0] = self.c_game.get_densities_size()
         return PyArray_SimpleNewFromData(1, dims, NPY_DOUBLE, self.c_game.get_densities_pointer())
 
+    @property
+    def persistence(self):
+        return self.c_game.get_persistence()
+
     def evolve(self, int num_steps = 1):
-        self.c_game.evolve(num_steps)
+        self.c_game.evolve(num_steps, self.percfrom, self.perctill)
 
     def n_m_distribution(self):
         cdef vector[int] result = py_n_m_distribution(self.c_game)
@@ -87,7 +93,7 @@ cdef class MeanGamePy:
 
         zeros = []
         ones = []
-        if(not size_only):
+        if not size_only:
             dims[0] = self._L
             dims[1] = self._L
             zeros.append(PyArray_SimpleNewFromData(2, dims, NPY_UINT32, &result[0].labeled_field[0]))
