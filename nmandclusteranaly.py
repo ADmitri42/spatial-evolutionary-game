@@ -40,8 +40,11 @@ parser = argparse.ArgumentParser(description='Collects data about cluster sizes 
 parser.add_argument('config', metavar='config', type=str,
                     help='JSON file with configuration')
 
+parser.add_argument('-y', dest='overwrite', action='store_true')
+parser.set_defaults(overwrite=False)
+
 args = parser.parse_args()
-config, path_to_results = configure_workflow(args.config)
+config, path_to_results = configure_workflow(args.config, args.overwrite)
 
 
 game = MeanGamePy(config["fields"]["size"], 1.3)
