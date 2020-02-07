@@ -14,7 +14,7 @@
   },
   "results": {
     "dir": "./data",
-    "name": "some_name"
+    "name": "test_data"
   },
   "fields": {
     "size": 20,

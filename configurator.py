@@ -2,7 +2,7 @@ import os
 import json
 
 
-def configure_workflow(config_file: str):
+def configure_workflow(config_file: str, def_override: bool = False):
     with open(config_file) as f:
         config = json.load(f)
 
@@ -11,12 +11,13 @@ def configure_workflow(config_file: str):
     try:
         os.makedirs(path_to_results)
     except FileExistsError:
-        ans = input("Are you sure you want to override existing results?(y/[n]) ").lower()
-        if len(ans) == 0 or ans == "n":
-            exit(0)
-        elif len(ans) > 1 or ans != "y":
-            print("Unknown answer")
-            exit(1)
+        if not def_override:
+            ans = input("Are you sure you want to override existing results?(y/[n]) ").lower()
+            if len(ans) == 0 or ans == "n":
+                exit(0)
+            elif len(ans) > 1 or ans != "y":
+                print("Unknown answer")
+                exit(1)
 
     if not os.path.exists(config["fields"]["dir"]):
         raise FileNotFoundError("Can't find " + config["fields"]["dir"])
