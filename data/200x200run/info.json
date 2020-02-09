@@ -10,11 +10,16 @@
   },
   "results": {
     "dir": "./data",
-    "name": "clusters_and_nm"
+    "name": "200x200run"
   },
   "fields": {
     "size": 200,
     "dir": "./fields",
-    "quantity": 50
+    "quantity": 100
+  },
+  "persistence": {
+    "start": 15000,
+    "end": 16000
+  }
   }
 }
