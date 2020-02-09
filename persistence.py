@@ -20,7 +20,9 @@ config, path_to_results = configure_workflow(args.config, args.overwrite)
 
 
 game = MeanGamePy(config["fields"]["size"], 1.3, config["persistence"]["start"], config["persistence"]["end"])
+
 persistence = np.zeros((len(config["parameters"]), config["fields"]["quantity"]))
+density = np.zeros((len(config["parameters"]), config["fields"]["quantity"], config["persistence"]["end"] + 1))
 
 field_temp = os.path.join(config["fields"]["dir"], f"field_{config['fields']['size']}" + "_{0}.npy")
 
@@ -30,5 +32,7 @@ for i, b in tqdm(zip(range(len(config["parameters"])), config["parameters"]), to
         game.field = np.load(field_temp.format(j))
         game.evolve(config["persistence"]["end"])
         persistence[i, j] = game.persistence
+        density[i, j] = game.densities
 
 np.save(os.path.join(path_to_results, "persistence.npy"), persistence)
+np.save(os.path.join(path_to_results, "density.npy"), density)

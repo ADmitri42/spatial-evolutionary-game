@@ -1,46 +1,18 @@
 import os
-import json
 import argparse
 from collections import Counter
 
 import numpy as np
 from tqdm import tqdm
+
 from meangame import MeanGamePy
+from configurator import configure_workflow
 
-def configure_workflow(config_file: str):
-    with open(config_file) as f:
-        config = json.load(f)
-
-    path_to_results = os.path.join(config["results"]["dir"], config["results"]["name"])
-
-    try:
-        os.makedirs(path_to_results)
-    except FileExistsError:
-        ans = input("Are you sure you want to override existing results?(y/[n]) ").lower()
-        if len(ans) == 0 or ans == "n":
-            exit(0)
-        elif len(ans) > 1 or ans != "y":
-            print("Unknown answer")
-            exit(1)
-
-    if not os.path.exists(config["fields"]["dir"]):
-        raise FileNotFoundError("Can't find " + config["fields"]["dir"])
-
-    for i in range(config["fields"]["quantity"]):
-        if not os.path.exists(os.path.join(config["fields"]["dir"], f"field_{config['fields']['size']}_{i}.npy")):
-            raise FileNotFoundError("Not enough fields")
-
-    with open(os.path.join(path_to_results, "info.json"), "w") as f:
-        json.dump(config, f)
-    
-    return config, path_to_results
-
-
-parser = argparse.ArgumentParser(description='Collects data about cluster sizes and N-M distribution and saves it.')
+parser = argparse.ArgumentParser(description='Collects data about persistence and saves it.')
 parser.add_argument('config', metavar='config', type=str,
                     help='JSON file with configuration')
 
-parser.add_argument('-y', dest='overwrite', action='store_true')
+parser.add_argument('-y', dest='overwrite', action='store_true', help="If needed, answer yes")
 parser.set_defaults(overwrite=False)
 
 args = parser.parse_args()
