@@ -1,11 +1,11 @@
 cython:
 	export CFLAGS='-I$(shell python3 -c "import numpy;print(numpy.get_include())")' && python3 setup.py build_ext --inplace
 	if [ -d "build" ]; then rm -Rf build; fi
-	rm cpp_mean_game/meangame.cpp
+	rm games/meangame.cpp
 
 pytest:
-	python3 -m pytest -q ./cpp_mean_game/test/
+	python3 -m pytest -q ./games/test/
 
-testcpp:
-	g++ -o test.out cpp/tests.cpp cpp/utilities.cpp cpp/evolve.cc && ./test.out
+cpptest:
+	g++ -o test.out ./games/cpp/tests.cpp ./games/cpp/utilities.cpp ./games/cpp/evolve.cc && ./test.out
 	rm test.out
