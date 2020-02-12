@@ -6,7 +6,7 @@
 #define DYNAMIC_FRACTALS_CLUSTERING_H
 
 #include <vector>
-#include "evolve.h"
+#include "games.h"
 
 typedef struct LBF {
     std::vector<int> labeled_field;

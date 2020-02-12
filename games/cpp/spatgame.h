@@ -1,10 +1,14 @@
-#ifndef __EVOLVE_FIELD__
-#define __EVOLVE_FIELD__
+//
+// Created by Dima on 12.02.2020.
+//
+
+#ifndef SPATIAL_EVOLUTIONARY_GAME_SPATGAME_H
+#define SPATIAL_EVOLUTIONARY_GAME_SPATGAME_H
 
 #include<vector>
 
-class MeanGame{
-private:
+class AbstractSpatialGame{
+protected:
     std::vector<char> field;
     std::vector<char> unchanged;
 
@@ -16,9 +20,9 @@ private:
     int perCalTill;
 
 public:
-    MeanGame(size_t size, double _b=1.8);
+    AbstractSpatialGame(size_t size, double _b=1.8);
 
-    void calculate_scores(std::vector<double> &scores);
+    virtual void calculate_scores(std::vector<double> &scores);
     void evolve(int num_steps = 0, int percfrom = -1, int perctill = -1);
 
     std::vector<double> get_densities();
@@ -36,4 +40,4 @@ public:
     double* get_densities_pointer();
 };
 
-#endif
+#endif //SPATIAL_EVOLUTIONARY_GAME_SPATGAME_H

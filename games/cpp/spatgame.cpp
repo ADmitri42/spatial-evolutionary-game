@@ -1,4 +1,4 @@
-#include "evolve.h"
+#include "spatgame.h"
 #include <cmath>
 #include <iostream>
 #include <numeric>
@@ -10,7 +10,7 @@
  * size - length of field
  * _b - initial payoff parameter
  */
-MeanGame::MeanGame(size_t size, double _b){
+AbstractSpatialGame::AbstractSpatialGame(size_t size, double _b){
     L = size;
     field.assign(L*L, 0);
     unchanged.assign(L*L, 1);
@@ -21,15 +21,15 @@ MeanGame::MeanGame(size_t size, double _b){
 /*
  * return vector of densities for all steps after resetting field
  */
-std::vector<double> MeanGame::get_densities(){
+std::vector<double> AbstractSpatialGame::get_densities(){
     return densities;
 }
 
-size_t MeanGame::size(){
+size_t AbstractSpatialGame::size(){
     return L;
 }
 
-double MeanGame::get_b(){
+double AbstractSpatialGame::get_b(){
     return b;
 }
 
@@ -37,11 +37,11 @@ double MeanGame::get_b(){
  * Set new payoff parameter
  * (doesn't reset the statistic)
  */
-void MeanGame::set_b(double new_b){
+void AbstractSpatialGame::set_b(double new_b){
     b = new_b;
 }
 
-std::vector<int> MeanGame::get_field(){
+std::vector<int> AbstractSpatialGame::get_field(){
     std::vector<int> ifield;
     for(auto t: field){
         ifield.push_back(static_cast<int>(t));
@@ -54,7 +54,7 @@ std::vector<int> MeanGame::get_field(){
  * Set new field
  * (statistic would be reset)
  */
-void MeanGame::set_field(const std::vector<int> &new_field){
+void AbstractSpatialGame::set_field(const std::vector<int> &new_field){
     if(new_field.size() != L*L){
         throw std::length_error("Wrong size");
     }
@@ -70,11 +70,11 @@ void MeanGame::set_field(const std::vector<int> &new_field){
 /*
  * Return persistence
  */
-double MeanGame::get_persistence(){
+double AbstractSpatialGame::get_persistence(){
     return static_cast<double>(std::accumulate(unchanged.begin(),unchanged.end(),0))/unchanged.size();
 }
 
-void MeanGame::calculate_scores(std::vector<double> &scores){
+void AbstractSpatialGame::calculate_scores(std::vector<double> &scores){
     scores.assign(L*L, 0);
     double density = densities.back();
 
@@ -106,7 +106,7 @@ void MeanGame::calculate_scores(std::vector<double> &scores){
 /*
  * Evolve num_steps
  */
-void MeanGame::evolve(int num_steps, int perCalFrom, int perCalTill)
+void AbstractSpatialGame::evolve(int num_steps, int perCalFrom, int perCalTill)
 {
     std::vector<double> scores(L*L, 0);
     std::vector<char> currentField(L*L, 0);
@@ -153,14 +153,14 @@ void MeanGame::evolve(int num_steps, int perCalFrom, int perCalTill)
 /*
  * Methods that simplify NumPy Array creation
  */
-char* MeanGame::get_field_pointer(){
+char* AbstractSpatialGame::get_field_pointer(){
     return &field[0];
 }
 
-int MeanGame::get_densities_size(){
+int AbstractSpatialGame::get_densities_size(){
     return densities.size();
 }
 
-double* MeanGame::get_densities_pointer(){
+double* AbstractSpatialGame::get_densities_pointer(){
     return &densities[0];
 }
