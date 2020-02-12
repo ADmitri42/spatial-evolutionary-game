@@ -1,7 +1,7 @@
 # distutils: sources = cpp/games.cpp
 from libcpp.vector cimport vector
 
-cdef extern from "cpp/evolve.h":
+cdef extern from "cpp/games.h":
     cdef cppclass MeanGame:
         MeanGame(int, double)
         void evolve(int, int, int);
