@@ -4,10 +4,15 @@
 #include<vector>
 #include "spatgame.h"
 
+class NovakMayGame: public AbstractSpatialGame {
+public:
+    NovakMayGame(size_t size, double _b=1.8): AbstractSpatialGame(size, _b) {};
+    void calculate_scores(std::vector<double> &scores);
+};
+
 class MeanGame: public AbstractSpatialGame {
 public:
     MeanGame(size_t size, double _b=1.8): AbstractSpatialGame(size, _b) {};
-
     void calculate_scores(std::vector<double> &scores);
 };
 

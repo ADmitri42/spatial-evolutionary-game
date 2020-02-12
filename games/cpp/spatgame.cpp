@@ -89,7 +89,7 @@ void AbstractSpatialGame::calculate_scores(std::vector<double> &scores){
             {
                 size_t memberIndex = (x + i + L) % L + L * ((y + j + L) % L);
                 if((i == 0)&&(j == 0)){
-                    scores[k] += density;
+                    scores[k] += 0;
                 } else {
                     scores[k] += field[memberIndex];// == 0 ? 1 : 0;
                 }
