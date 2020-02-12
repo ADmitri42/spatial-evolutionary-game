@@ -1,4 +1,4 @@
-# distutils: sources = cpp/evolve.cc
+# distutils: sources = cpp/games.cpp
 from libcpp.vector cimport vector
 
 cdef extern from "cpp/evolve.h":
