@@ -16,14 +16,12 @@ Let's take a quick look at files:
 * [Animation.ipynb](Animation.ipynb) - animations
 * [figures\\](figures) - Graphs and other images
 - [data\\](data) - Folder with all generated data
-- [data\\density_of_cooperators.npy](data\density_of_cooperators.npy) - densities of cooperators with initial densities of 0.9
-- [data\\density_of_cooperators15-17.npy](data\density_of_cooperators15-17.npy) - same but b between 1.5 and 1.7
-- [data\\density_of_cooperators5.npy](data\density_of_cooperators5.npy) - densities of cooperators with initial densities of 0.5
-- [data\\density_of_cooperators515-17.npy](data\density_of_cooperators515-17.npy) - same but b between 1.5 and 1.7
+- [data\\density_of_cooperators.npy](data\200x200run) - Results for Mean game for b between 1.5 and ~1.65
+- [data\\200MeanGame](data\200MeanGame) - Results for Mean game for b between .9 and 2
 
-- [cpp_mean_game\\](cpp_mean_game) - Folder with C++ and Cython realization of the game
-- [cpp_mean_game\\cpp](cpp_mean_game\cpp) - Folder with C++ code
-- [cpp_mean_game\\test](cpp_mean_game\test) - Folder with tests(uses pytest)
+- [games\\](games) - Folder with C++ and Cython realization of the game
+- [games\\cpp](games\cpp) - Folder with C++ code
+- [games\\test](games\test) - Folder with tests(uses pytest)
 
 ## How to setup
 To use whole speed of C++ and Cython one have to compile code with -O3 optimization.
