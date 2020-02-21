@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
 
-from meangame import MeanGamePy
+from spatgames import MeanGamePy
 
 
 @pytest.fixture(scope="module")

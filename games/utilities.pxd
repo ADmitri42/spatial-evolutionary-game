@@ -1,6 +1,6 @@
 # distutils: sources = cpp/utilities.cpp
 from libcpp.vector cimport vector
-from MeanGame cimport MeanGame
+from CGames cimport MeanGame
 
 cdef extern from "cpp/utilities.h":
     cdef struct LBF:

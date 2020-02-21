@@ -5,7 +5,7 @@ from collections import Counter
 import numpy as np
 from tqdm import tqdm
 
-from meangame import MeanGamePy
+from spatgames import MeanGamePy
 from configurator import configure_workflow
 
 parser = argparse.ArgumentParser(description='Collects data about persistence and saves it.')

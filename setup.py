@@ -1,5 +1,5 @@
 from distutils.core import setup
-from Cython.Build import cythonize
+# from Cython.Build import cythonize
 from distutils.extension import Extension
 from Cython.Distutils import build_ext
 import numpy as np
@@ -13,7 +13,7 @@ import numpy as np
 #            language="c++",             # generate C++ code
 #       ))
 
-setup(ext_modules=[Extension("meangame",
+setup(ext_modules=[Extension("spatgames",
                              ["./games/meangame.pyx",
                               "./games/cpp/games.cpp",
                               "./games/cpp/utilities.cpp",
