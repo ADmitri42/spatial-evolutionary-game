@@ -5,7 +5,7 @@ from collections import Counter
 import numpy as np
 from tqdm import tqdm
 
-from spatgames import MeanGamePy
+import spatgames
 from configurator import configure_workflow
 
 parser = argparse.ArgumentParser(description='Collects data about persistence and saves it.')
@@ -18,8 +18,9 @@ parser.set_defaults(overwrite=False)
 args = parser.parse_args()
 config, path_to_results = configure_workflow(args.config, args.overwrite)
 
+GamePy = getattr(spatgames, config["GameType"])
 
-game = MeanGamePy(config["fields"]["size"], 1.3, config["persistence"]["start"], config["persistence"]["end"])
+game = GamePy(config["fields"]["size"], 1.3, config["persistence"]["start"], config["persistence"]["end"])
 
 persistence = np.zeros((len(config["parameters"]), config["fields"]["quantity"]))
 density = np.zeros((len(config["parameters"]), config["fields"]["quantity"], config["persistence"]["end"] + 1))

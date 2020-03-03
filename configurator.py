@@ -26,6 +26,8 @@ def configure_workflow(config_file: str, def_override: bool = False):
         if not os.path.exists(os.path.join(config["fields"]["dir"], f"field_{config['fields']['size']}_{i}.npy")):
             raise FileNotFoundError("Not enough fields")
 
+    config["GameType"] = config.get("GameType", "MeanGamePy")
+
     with open(os.path.join(path_to_results, "info.json"), "w") as f:
         json.dump(config, f)
 
