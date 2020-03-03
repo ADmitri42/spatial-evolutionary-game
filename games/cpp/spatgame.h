@@ -21,8 +21,10 @@ protected:
 
 public:
     AbstractSpatialGame(size_t size, double _b=1.8);
+    virtual ~AbstractSpatialGame() {};
 
     virtual void calculate_scores(std::vector<double> &scores);
+    virtual void update_field(const std::vector<double> &scores, int time_moment, int percfrom = -1, int perctill = -1);
     void evolve(int num_steps = 0, int percfrom = -1, int perctill = -1);
 
     std::vector<double> get_densities();

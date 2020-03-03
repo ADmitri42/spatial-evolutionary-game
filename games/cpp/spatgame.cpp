@@ -74,6 +74,7 @@ double AbstractSpatialGame::get_persistence(){
     return static_cast<double>(std::accumulate(unchanged.begin(),unchanged.end(),0))/unchanged.size();
 }
 
+
 void AbstractSpatialGame::calculate_scores(std::vector<double> &scores){
     scores.assign(L*L, 0);
     double density = densities.back();
@@ -103,51 +104,58 @@ void AbstractSpatialGame::calculate_scores(std::vector<double> &scores){
     }
 }
 
+
+void AbstractSpatialGame::update_field(const std::vector<double> &scores, int time_moment, int perCalFrom, int perCalTill){
+    //Field
+    std::vector<char> currentField(field);
+//    std::copy(field.begin(), field.end(), currentField.begin());
+
+    //Strategy
+    for (size_t k = 0; k < L*L; k++) {
+        int y = k / L; // Row
+        int x = k % L; // Col
+
+        size_t bestStrategyIndex = k;
+
+        for (int i = -1; i <= 1; i++) //Row
+        {
+            for (int j = -1; j <= 1; j++) //Col
+            {
+                size_t memberIndex = (x + i + L) % L + L * ((y + j + L) % L);
+
+                if (scores[bestStrategyIndex] < scores[memberIndex])
+                {
+                    bestStrategyIndex = memberIndex;
+                }
+            }
+        }
+        if((perCalFrom >= 0)&&(time_moment > perCalFrom)&&(time_moment < perCalTill)&&(k != bestStrategyIndex)){
+            unchanged[k] = 0;
+        }
+        field[k] = currentField[bestStrategyIndex];
+    }
+    currentField.clear();
+}
+
 /*
  * Evolve num_steps
  */
 void AbstractSpatialGame::evolve(int num_steps, int perCalFrom, int perCalTill)
 {
     std::vector<double> scores(L*L, 0);
-    std::vector<char> currentField(L*L, 0);
 
     for(int step = 0,time_moment = densities.size(); step < num_steps; step++, time_moment++)
     {
-        //Field
-        std::copy(field.begin(), field.end(), currentField.begin());
 
         //Payoffs
         calculate_scores(scores);
 
         //Strategy
-        for (size_t k = 0; k < L*L; k++) {
-            int y = k / L; // Row
-            int x = k % L; // Col
-
-            size_t bestStrategyIndex = k;
-
-            for (int i = -1; i <= 1; i++) //Row
-            {
-                for (int j = -1; j <= 1; j++) //Col
-                {
-                    size_t memberIndex = (x + i + L) % L + L * ((y + j + L) % L);
-
-                    if (scores[bestStrategyIndex] < scores[memberIndex])
-                    {
-                        bestStrategyIndex = memberIndex;
-                    }
-                }
-            }
-            if((perCalFrom >= 0)&&(time_moment > perCalFrom)&&(time_moment < perCalTill)&&(k != bestStrategyIndex)){
-                unchanged[k] = 0;
-            }
-            field[k] = currentField[bestStrategyIndex];
-        }
+        update_field(scores, time_moment, perCalFrom, perCalTill);
         densities.push_back((1.*std::accumulate(field.begin(),field.end(),0))/field.size());
     }
 
     scores.clear();
-    currentField.clear();
 }
 
 /*
