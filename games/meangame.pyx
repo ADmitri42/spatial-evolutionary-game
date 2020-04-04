@@ -321,12 +321,20 @@ cdef class MeanTriangularGamePy:
         self.c_game.evolve(num_steps, self.percfrom, self.perctill)
 
 
-cdef long[:, :] collors = np.array(((255, 255, 0),
-                                    (0, 0, 0),
-                                    (255, 0, 0),
-                                    (0, 0, 255),
-                                    (0, 0, 0),
-                                    (0, 255, 0)), dtype=int)
+cdef long[:, :] collors = np.array(((255, 255, 0, 255),
+                                    (0, 0, 0, 255),
+                                    (255, 0, 0, 255),
+                                    (0, 0, 255, 255),
+                                    (0, 0, 0, 255),
+                                    (0, 255, 0, 255)), dtype=int)
+
+cdef double[:, :] colors_f = np.array(((1, 1, 0, 1),
+                                    (0, 0, 0, 1),
+                                    (1, 0, 0, 1),
+                                    (0, 0, 1, 1),
+                                    (0, 0, 0, 1),
+                                    (0, 1, 0, 1)), dtype=float)
+
 @cython.cdivision(True)
 @cython.boundscheck(False)
 def _make_rgb(long[:, :] field):
@@ -344,5 +352,22 @@ def _make_rgb(long[:, :] field):
 
 def color_field_change(oldfield, newfield):
     return _make_rgb(newfield + 2*(newfield-oldfield))
+
+@cython.cdivision(True)
+@cython.boundscheck(False)
+def _make_rgb_flat(long[:] field):
+    cdef:
+        int L = field.shape[0]
+        double[:, :] new_field = np.zeros((L,  3), dtype=float)
+
+    for i in range(L):
+        for t in range(3):
+            new_field[i, t] = colors_f[field[i]+2][t]
+
+    return np.asarray(new_field)
+
+
+def color_field_change_flat(oldfield, newfield):
+    return _make_rgb_flat(newfield + 2*(newfield-oldfield))
 
 import_array()
