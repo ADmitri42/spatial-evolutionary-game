@@ -9,17 +9,22 @@ In each round individuals "*play the game*" with 8 its neighbours and the *avera
 After all games played the site occupied either by its original owner or by one of the neighbours who scores the highest total payoff in that round.
 
 ## Where is what?
-Let's take a quick look at files:
-
+Let's take a quick tour into repo:
+### Notebooks
+- [2DMeanGame.ipynb](2DMeanGame.ipynb) - Notebook with all graphs and some data for 2D Mean game
+- [1Dgame.ipynb](1Dgame.ipynb) - There we looking into 1D case
+- [notebooks\\](notebooks) - Folder with some old notebooks
+### Scripts
 - [densityandpersistence.py](densityandpersistence.py) - script to calculate density and persistence of the games
 - [nmandclusteranaly.py](nmandclusteranaly.py) - script used to calculate NM-distribution and sizes of clusters
 - [scripts\\](scripts) - some useful script to render animation and fields images
+### Everything else
 - [figures\\](figures) - Graphs and other images
-
-- [notebooks\\](notebooks) - Folder with some old notebooks
 - [games\\](games) - Folder with C++ and Cython realization of the game
-* [games\\cpp](games\cpp) - Folder with C++ code
-* [games\\test](games\test) - Folder with tests(uses pytest)
+- [games\\cpp](games\cpp) - Folder with C++ code
+- [games\\test](games\test) - Folder with tests(uses pytest)
+### What about data?
+You can download data [here](https://www.dropbox.com/s/wl29ihi0mmh0t4d/data.tar.gz?dl=0)
 
 ## How to setup
 To compile Cython file
@@ -62,3 +67,5 @@ Example of `config.json`
   }
 }
 ```
+
+`nmandclusteranaly.py` works only with square games
