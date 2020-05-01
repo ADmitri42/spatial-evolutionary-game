@@ -77,7 +77,6 @@ double AbstractSpatialGame::get_persistence(){
 
 void AbstractSpatialGame::calculate_scores(std::vector<double> &scores){
     scores.assign(L*L, 0);
-    double density = densities.back();
 
     //Payoffs
     for (size_t k = 0; k < L*L; k++) {
@@ -108,7 +107,6 @@ void AbstractSpatialGame::calculate_scores(std::vector<double> &scores){
 void AbstractSpatialGame::update_field(const std::vector<double> &scores, int time_moment, int perCalFrom, int perCalTill){
     //Field
     std::vector<char> currentField(field);
-//    std::copy(field.begin(), field.end(), currentField.begin());
 
     //Strategy
     for (size_t k = 0; k < L*L; k++) {
