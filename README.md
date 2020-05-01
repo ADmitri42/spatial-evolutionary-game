@@ -11,30 +11,54 @@ After all games played the site occupied either by its original owner or by one 
 ## Where is what?
 Let's take a quick look at files:
 
-* [spatial evolutionary game.ipynb](spatial%20evolutionary%20game.ipynb) - The main notebook where one can find all main information
-* [draft.ipynb](draft.ipynb) - used for experiments and testing
-* [Animation.ipynb](Animation.ipynb) - animations
-* [figures\\](figures) - Graphs and other images
-- [data\\](data) - Folder with all generated data
+- [densityandpersistence.py](densityandpersistence.py) - script to calculate density and persistence of the games
+- [nmandclusteranaly.py](nmandclusteranaly.py) - script used to calculate NM-distribution and sizes of clusters
+- [scripts\\](scripts) - some useful script to render animation and fields images
+- [figures\\](figures) - Graphs and other images
 
+- [notebooks\\](notebooks) - Folder with some old notebooks
 - [games\\](games) - Folder with C++ and Cython realization of the game
-- [games\\cpp](games\cpp) - Folder with C++ code
-- [games\\test](games\test) - Folder with tests(uses pytest)
+* [games\\cpp](games\cpp) - Folder with C++ code
+* [games\\test](games\test) - Folder with tests(uses pytest)
 
 ## How to setup
 To compile Cython file
 ```bash
 make
 ```
-To test MeanGame
+To test Games
 ```bash
 make pytest
 ```
 
-### C++
-To compile C++ version you need to install [cnpy](https://github.com/rogersce/cnpy) and [generate fields](spatial evolutionary game.ipynb)
-
-After installation you can compile it
+## How to use it?
 ```bash
-make cpp
+densityandpersistence.py config.json
+```
+
+Example of `config.json`
+
+[More](basic_setup.json)
+```json
+{
+  "GameType": "NovakMayTriangularGamePy",
+  "parameters": [0.9, 1.25423729, 1.53389831, 1.81355932, 2.0],
+  "steps": {
+    "drop": 10000,
+    "measure": 10
+  },
+  "results": {
+    "dir": "./data",
+    "name": "NovakMayTriangle"
+  },
+  "fields": {
+    "size": 200,
+    "dir": "./fields",
+    "quantity": 40
+  },
+  "persistence": {
+    "start": 15000,
+    "end": 16000
+  }
+}
 ```

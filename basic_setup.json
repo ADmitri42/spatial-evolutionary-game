@@ -1,25 +1,21 @@
 {
-  "GameType": "MeanTriangularGamePy",
-  "parameters": [1.5       , 1.50689655, 1.5137931 , 1.52068966, 1.52758621,
-                1.53448276, 1.54137931, 1.54827586, 1.55517241, 1.56206897,
-                1.56896552, 1.57586207, 1.58275862, 1.58965517, 1.59655172,
-                1.60344828, 1.61034483, 1.61724138, 1.62413793, 1.63103448,
-                1.63793103, 1.64482759, 1.65172414, 1.65862069],
+  "GameType": "NovakMayTriangularGamePy",
+  "parameters": [0.9, 1.25423729, 1.53389831, 1.81355932, 2.0],
   "steps": {
-    "drop": 100,
+    "drop": 10000,
     "measure": 10
   },
-  "persistence": {
-    "start": 100,
-    "end": 1100
-  },
   "results": {
-    "dir": "./data",
-    "name": "test_data"
+    "dir": "data_dir",
+    "name": "name_of_dir_for_data"
   },
   "fields": {
-    "size": 20,
-    "dir": "./fields",
-    "quantity": 20
+    "size": 200,
+    "dir": "dir_with_fields",
+    "quantity": 40
+  },
+  "persistence": {
+    "start": 15000,
+    "end": 16000
   }
 }
