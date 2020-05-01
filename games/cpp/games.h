@@ -2,6 +2,7 @@
 #define __EVOLVE_FIELD__
 
 #include<vector>
+#include <sys/types.h>
 #include "spatgame.h"
 
 class NovakMayGame: public AbstractSpatialGame {

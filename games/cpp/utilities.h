@@ -6,6 +6,7 @@
 #define DYNAMIC_FRACTALS_CLUSTERING_H
 
 #include <vector>
+#include <sys/types.h>
 #include "games.h"
 
 typedef struct LBF {

@@ -6,6 +6,7 @@
 #define SPATIAL_EVOLUTIONARY_GAME_SPATGAME_H
 
 #include<vector>
+#include <sys/types.h>
 
 class AbstractSpatialGame{
 protected:

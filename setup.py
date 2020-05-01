@@ -19,5 +19,6 @@ setup(ext_modules=[Extension("spatgames",
                               "./games/cpp/utilities.cpp",
                               "./games/cpp/spatgame.cpp"],
                              language="c++",
-                             include_path = [np.get_include(),])],
+                             include_path = [np.get_include(),],
+                             extra_compile_args=["-std=c++11"])],
       cmdclass = {'build_ext': build_ext})
