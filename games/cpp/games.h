@@ -1,7 +1,8 @@
 #ifndef __EVOLVE_FIELD__
 #define __EVOLVE_FIELD__
 
-#include<vector>
+#include <vector>
+#include <array>
 #include <sys/types.h>
 #include "spatgame.h"
 
@@ -53,11 +54,7 @@ public:
     std::array<double, 2> get_bs();
     void set_b(double new_b1, double new_b2);
     void set_field(const std::vector<int> &new_field1, const std::vector<int> &new_field2);
-    std::array<double, 2> get_persistence();
-    /*
-     * Function to create numpy array
-     */
-    int get_densities_size();
+    std::array<double, 2> get_persistences();
 };
 
 #endif
