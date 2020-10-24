@@ -3,6 +3,6 @@ cython:
 	if [ -d "build" ]; then rm -Rf build; fi
 	rm games/meangame.cpp
 
-pytest:
+test:
 	python3 -m pytest -q ./games/test/
 
