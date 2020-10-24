@@ -2,7 +2,6 @@
 #define __EVOLVE_FIELD__
 
 #include <vector>
-#include <array>
 #include <sys/types.h>
 #include "spatgame.h"
 
@@ -51,10 +50,10 @@ public:
     virtual void update_field(const std::vector<double> &scores, int time_moment, int percfrom = -1, int perctill = -1);
     void evolve(int num_steps = 0, int percfrom = -1, int perctill = -1);
 
-    std::array<double, 2> get_bs();
+    std::vector<double> get_bs();
     void set_b(double new_b1, double new_b2);
     void set_field(const std::vector<int> &new_field1, const std::vector<int> &new_field2);
-    std::array<double, 2> get_persistences();
+    std::vector<double> get_persistences();
 };
 
 #endif

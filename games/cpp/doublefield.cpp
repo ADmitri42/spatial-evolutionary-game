@@ -22,7 +22,7 @@ DoubleMeanFieldGame::DoubleMeanFieldGame(size_t size, double _b1, double _b2): A
 /*
  * return vector of densities for all steps after resetting field
  */
-std::array<double, 2> DoubleMeanFieldGame::get_bs(){
+std::vector<double> DoubleMeanFieldGame::get_bs(){
     return {b1, b2};
 }
 
@@ -60,7 +60,7 @@ void DoubleMeanFieldGame::set_field(const std::vector<int> &new_field1, const st
 /*
  * Return persistence
  */
-std::array<double, 2> DoubleMeanFieldGame::get_persistences(){
+std::vector<double> DoubleMeanFieldGame::get_persistences(){
     return {static_cast<double>(std::accumulate(unchanged.begin(),unchanged.begin()+L*L,0))/(L*L),
             static_cast<double>(std::accumulate(unchanged.begin()+L*L, unchanged.end(),0))/(L*L)};
 }
