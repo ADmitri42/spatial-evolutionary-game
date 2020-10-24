@@ -147,11 +147,12 @@ void DoubleMeanFieldGame::evolve(int num_steps, int perCalFrom, int perCalTill)
     {
 
         //Payoffs
+        scores.assign(2*L*L, 0);
         calculate_scores(scores);
 
         //Strategy
         update_field(scores, time_moment, perCalFrom, perCalTill);
-        densities.push_back((1.*std::accumulate(field.begin(),field.begin()+L*L,0))/field.size());
+        densities.push_back((1.*std::accumulate(field.begin(),field.begin()+L*L,0))/(L*L));
         densities.push_back((1.*std::accumulate(field.begin()+L*L,field.end(),0))/(L*L));
     }
 
