@@ -73,7 +73,7 @@ void DoubleMeanFieldGame::calculate_scores(std::vector<double> &scores){
     int offset = 0;
     for(int off = 0; off < 2; ++off){
         offset = L*L*off;
-        density = densities[densities.size()-2+off];
+        density = densities[densities.size()-1-off];
         for (size_t k = 0; k < L*L; k++) {
             int y = k / L; // Row
             int x = k % L; // Col
