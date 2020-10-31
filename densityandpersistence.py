@@ -61,16 +61,17 @@ if config["GameType"] == "DoubleMeanFieldGamePy":
         new_persistence = np.zeros((len(config["parameters"]["b1"]),
                                 len(config["parameters"]["b2"]),
                                 config["fields"]["quantity"], 2))
+
+        for k, (i, j) in enumerate(product(range(len(config["parameters"]["b1"])), range(len(config["parameters"]["b2"])))):
+            new_density[i, j] = density[k].reshape((config["fields"]["quantity"], -1, 2))
+            new_persistence[i, j] = persistence[k]
     else:
         new_density = np.zeros((len(config["parameters"]), len(config["parameters"]), config["fields"]["quantity"], config["persistence"]["end"] + 1, 2))
         new_persistence = np.zeros((len(config["parameters"]), len(config["parameters"]), config["fields"]["quantity"], 2))
-
-
-    new_density = np.zeros((len(config["parameters"]), len(config["parameters"]), config["fields"]["quantity"], config["persistence"]["end"] + 1, 2))
-    new_persistence = np.zeros((len(config["parameters"]), len(config["parameters"]), config["fields"]["quantity"], 2))
-    for k, (i, j) in enumerate(product(range(len(config["parameters"])), range(len(config["parameters"])))):
-        new_density[i, j] = density[k].reshape((config["fields"]["quantity"], -1, 2))
-        new_persistence[i, j] = persistence[k]
+        
+        for k, (i, j) in enumerate(product(range(len(config["parameters"])), range(len(config["parameters"])))):
+            new_density[i, j] = density[k].reshape((config["fields"]["quantity"], -1, 2))
+            new_persistence[i, j] = persistence[k]
     
     density = new_density
     persistence = new_persistence
