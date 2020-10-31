@@ -54,6 +54,18 @@ for i, b in tqdm(zip(range(len(bs)), bs), total=len(bs)):
 
 # Fixing data
 if config["GameType"] == "DoubleMeanFieldGamePy":
+    if type(config["parameters"]) == dict:
+        new_density = np.zeros((len(config["parameters"]["b1"]),
+                                len(config["parameters"]["b2"]),
+                                config["fields"]["quantity"], config["persistence"]["end"] + 1, 2))
+        new_persistence = np.zeros((len(config["parameters"]["b1"]),
+                                len(config["parameters"]["b2"]),
+                                config["fields"]["quantity"], 2))
+    else:
+        new_density = np.zeros((len(config["parameters"]), len(config["parameters"]), config["fields"]["quantity"], config["persistence"]["end"] + 1, 2))
+        new_persistence = np.zeros((len(config["parameters"]), len(config["parameters"]), config["fields"]["quantity"], 2))
+
+
     new_density = np.zeros((len(config["parameters"]), len(config["parameters"]), config["fields"]["quantity"], config["persistence"]["end"] + 1, 2))
     new_persistence = np.zeros((len(config["parameters"]), len(config["parameters"]), config["fields"]["quantity"], 2))
     for k, (i, j) in enumerate(product(range(len(config["parameters"])), range(len(config["parameters"])))):
