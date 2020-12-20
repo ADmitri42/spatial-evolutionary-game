@@ -5,4 +5,3 @@ cython:
 
 pytest:
 	python3 -m pytest -q ./games/test/
-
