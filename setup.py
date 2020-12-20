@@ -1,4 +1,5 @@
 from distutils.core import setup
+
 # from Cython.Build import cythonize
 from distutils.extension import Extension
 from Cython.Distutils import build_ext
@@ -13,13 +14,23 @@ import numpy as np
 #            language="c++",             # generate C++ code
 #       ))
 
-setup(ext_modules=[Extension("spatgames",
-                             ["./games/meangame.pyx",
-                              "./games/cpp/games.cpp",
-                              "./games/cpp/utilities.cpp",
-                              "./games/cpp/spatgame.cpp",
-                              "./games/cpp/doublefield.cpp"],
-                             language="c++",
-                             include_path=[np.get_include(), ],
-                             extra_compile_args=["-std=c++17"])],
-      cmdclass={'build_ext': build_ext})
+setup(
+    ext_modules=[
+        Extension(
+            "spatgames",
+            [
+                "./games/meangame.pyx",
+                "./games/cpp/games.cpp",
+                "./games/cpp/utilities.cpp",
+                "./games/cpp/spatgame.cpp",
+                "./games/cpp/doublefield.cpp",
+            ],
+            language="c++",
+            include_path=[
+                np.get_include(),
+            ],
+            extra_compile_args=["-std=c++17"],
+        )
+    ],
+    cmdclass={"build_ext": build_ext},
+)
