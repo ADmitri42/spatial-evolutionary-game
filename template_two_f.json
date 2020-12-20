@@ -1,8 +1,12 @@
 {
   "GameType": "DoubleMeanFieldGamePy",
   "parameters": {
-    "b1": [0],
-    "b2": [0]
+    "b1": [
+      0
+    ],
+    "b2": [
+      0
+    ]
   },
   "steps": {
     "drop": 10000,
