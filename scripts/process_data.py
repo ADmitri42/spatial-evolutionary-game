@@ -5,7 +5,6 @@
 #
 # The raw data is approximately 19 gb total,
 # so we need to pre-process it on the cluster
-
 import numpy as np
 from tqdm import tqdm
 
