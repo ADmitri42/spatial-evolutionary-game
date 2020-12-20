@@ -8,7 +8,7 @@
 #include<vector>
 #include <sys/types.h>
 
-class AbstractSpatialGame{
+class AbstractSpatialGame {
 protected:
     std::vector<char> field;
     std::vector<char> unchanged;

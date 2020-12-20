@@ -33,13 +33,13 @@ public:
 
 /*
  * Double field basic game
- * 
+ *
  * Two field stored one after th other
  * Density for field 1 has indeces 2n
  * For field 2 indeces 2n+1
  */
 
-class DoubleMeanFieldGame: public AbstractSpatialGame{
+class DoubleMeanFieldGame: public AbstractSpatialGame {
 protected:
     double b1, b2;
 
