@@ -147,34 +147,36 @@ def test_densities(double_mean_game, field):
     double_mean_game.evolve(10)
     np.testing.assert_allclose(
         double_mean_game.densities,
-        np.array([
+        np.array(
             [
-                0.8775,
-                0.3425,
-                0.39,
-                0.4725,
-                0.5225,
-                0.675,
-                0.64,
-                0.6175,
-                0.6825,
-                0.6425,
-                0.655,
-            ],
-            [
-                0.8775,
-                0.3425,
-                0.39,
-                0.4725,
-                0.5225,
-                0.675,
-                0.64,
-                0.6175,
-                0.6825,
-                0.6425,
-                0.655,
-            ],
-        ]),
+                [
+                    0.8775,
+                    0.3425,
+                    0.39,
+                    0.4725,
+                    0.5225,
+                    0.675,
+                    0.64,
+                    0.6175,
+                    0.6825,
+                    0.6425,
+                    0.655,
+                ],
+                [
+                    0.8775,
+                    0.3425,
+                    0.39,
+                    0.4725,
+                    0.5225,
+                    0.675,
+                    0.64,
+                    0.6175,
+                    0.6825,
+                    0.6425,
+                    0.655,
+                ],
+            ]
+        ),
     )
 
 
@@ -187,19 +189,21 @@ def test_evolve_different_b(double_mean_game, field):
         AssertionError,
         np.testing.assert_allclose,
         density,
-        np.array([
-            0.8775,
-            0.3425,
-            0.39,
-            0.4725,
-            0.5225,
-            0.675,
-            0.64,
-            0.6175,
-            0.6825,
-            0.6425,
-            0.655,
-        ]),
+        np.array(
+            [
+                0.8775,
+                0.3425,
+                0.39,
+                0.4725,
+                0.5225,
+                0.675,
+                0.64,
+                0.6175,
+                0.6825,
+                0.6425,
+                0.655,
+            ]
+        ),
     )
 
 
@@ -211,5 +215,4 @@ def test_evolve_two(double_mean_game, field, evolved_field):
     double_mean_game.b = (1.9, 1.0)
     double_mean_game.field = field
     double_mean_game.evolve(10)
-    np.testing.assert_allclose(double_mean_game.densities[:, -1].mean(),
-                               density)
+    np.testing.assert_allclose(double_mean_game.densities[:, -1].mean(), density)

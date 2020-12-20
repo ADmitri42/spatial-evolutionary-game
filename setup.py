@@ -3,6 +3,7 @@ from distutils.extension import Extension
 
 import numpy as np
 from Cython.Distutils import build_ext
+
 # from Cython.Build import cythonize
 
 # OPT="-DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes" python3 setup.py build_ext
