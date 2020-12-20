@@ -4,7 +4,6 @@
 # where b2 >= b1,
 # so that we can automatically run
 # multiple processes with different win values
-
 import json
 import os
 
