@@ -1,11 +1,11 @@
-import os
 import argparse
+import os
 from collections import Counter
 
 import numpy as np
+import spatgames
 from tqdm import tqdm
 
-import spatgames
 from configurator import configure_workflow
 
 # Configure workflow

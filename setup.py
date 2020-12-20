@@ -1,9 +1,9 @@
 from distutils.core import setup
-
 # from Cython.Build import cythonize
 from distutils.extension import Extension
-from Cython.Distutils import build_ext
+
 import numpy as np
+from Cython.Distutils import build_ext
 
 # OPT="-DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes" python3 setup.py build_ext
 # export CFLAGS='-I/home/admitri/.local/lib/python3.6/site-packages/numpy/core/include'
