@@ -1,0 +1,24 @@
+{
+  "GameType": "DoubleMeanFieldGamePy",
+  "parameters": {
+    "b1": [0],
+    "b2": [0]
+  },
+  "steps": {
+    "drop": 10000,
+    "measure": 10
+  },
+  "results": {
+    "dir": "./data",
+    "name": "part0"
+  },
+  "fields": {
+    "size": 100,
+    "dir": "./fields",
+    "quantity": 40
+  },
+  "persistence": {
+    "start": 15000,
+    "end": 16000
+  }
+}

@@ -1,4 +1,3 @@
-# distutils: sources = cpp/games.cpp
 from libcpp.vector cimport vector
 
 cdef extern from "cpp/games.h":
@@ -28,3 +27,10 @@ cdef extern from "cpp/games.h":
 
     cdef cppclass MeanTriangularGame(AbstractSpatialGame):
         MeanTriangularGame(int, double)
+
+    cdef cppclass DoubleMeanFieldGame(AbstractSpatialGame):
+        DoubleMeanFieldGame(int, double, double);
+        void set_b(double, double);
+        void set_field(vector[int], vector[int]);
+        vector[double] get_bs();
+        vector[double] get_persistences();
