@@ -14,12 +14,12 @@ from spatgames import color_field_change, NovakMayGamePy as GamePy
 
 steps = 110
 b = 1.83
-L = 200
-game = GamePy(200, b)
+L = 50
+game = GamePy(L, b)
 
 # field = np.ones((L, L), dtype=int)
 # field[L//2, L//2] = 0
-field = np.random.choice((0, 1), (200, 200), p=(1-.9, .9))
+field = np.random.choice((0, 1), (L, L), p=(1-.9, .9))
 game.field = field
 
 fig = plt.figure()
